@@ -4,6 +4,8 @@
 #include <string.h>
 
 #define START_BUFFER 256
+#define  _POSIX_C_SOURCE 200809L
+#define _GNU_SOURCE
 
 int BUFFER_SIZE = 1028;
 static int nodeCounter = 0;
