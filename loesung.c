@@ -120,7 +120,7 @@ int goStep(int currentNode){
     idNextNode = isDuplicate(nodeList[currentNode].neighbourList[neighbourStep]);
     if(DEBUG){
         printf("Neighbours von current node %s: \n", nodeList[currentNode].name);
-        for(int i = 0; i < nodeList[currentNode].neighbour_count; i++) {
+        for(int i = 0; i < nodeList[currentNode].neighbour_count; i++){
             printf("%s, ",nodeList[currentNode].neighbourList[i]);
         }
         printf("current mark: %d, neighbourcount: %d\n", nodeList[currentNode].mark,nodeList[currentNode].neighbour_count);
