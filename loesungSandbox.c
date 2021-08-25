@@ -321,13 +321,15 @@ int main (void) {
         }
         getNode(input_ptr);
     }
-
-    for(int i = 0; i < nodeCounter; i++){
+    if(DEBUG) {
+         for(int i = 0; i < nodeCounter; i++){
         printf("Neighbours von %s am Ende: \n", nodeList[i].name);
         for(int j = 0; j < (int)nodeList[i].neighbour_count; j++){
             printf("%s, ", nodeList[i].neighbourList[j]);
         }
     }
+    }
+   
     int startNodeId = 0;
     startNodeId = getStartConditions(input_ptr); //line starting with A
     getline(&input_ptr, &len, stdin);
