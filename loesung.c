@@ -25,14 +25,14 @@ struct Node {
 
 };
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void sortList(char** List, int n) {
+static void sortNeighbours(int ID ) {
     char *tmp;
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (strcmp(List[i], List[j]) < 0) {
-                tmp = List[i];
-                List[i] = List[j];
-                List[j] = tmp;
+    for (int i = 0; i < nodeList[ID].neighbour_count - 1; i++) {
+        for (int j = i + 1; j < nodeList[ID].neighbour_count; j++) {
+            if (strcmp(nodeList[ID].neighbourList[i], nodeList[ID].neighbourList[j]) > 0) {
+                tmp = nodeList[ID].neighbourList[i];
+                nodeList[ID].neighbourList[i] = nodeList[ID].neighbourList[j];
+                nodeList[ID].neighbourList[j] = tmp;
             }
         }
     }
@@ -83,7 +83,7 @@ void addEdge(int IDbase, int IDadd) {
     tmp = nodeList[IDadd].name;
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
-    sortList(nodeList[IDbase].neighbourList,nodeList[IDbase].neighbour_count);
+    sortNeighbours(IDbase);
     nodeList[IDbase].neighbour_count++;
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
@@ -98,7 +98,7 @@ void addEdge(int IDbase, int IDadd) {
     tmp = nodeList[IDbase].name;
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(char*));
     nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
-    sortList(nodeList[IDadd].neighbourList,nodeList[IDadd].neighbour_count);
+    sortNeighbours(IDadd);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
     
