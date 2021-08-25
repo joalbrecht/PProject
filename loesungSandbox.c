@@ -124,19 +124,28 @@ int isDuplicate(char *node) {
 void addEdge(int IDbase, int IDadd) {
     if (DEBUG) {
         
-    }
+    
     printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
     printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
-    //Add Edge on Base
-    nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDadd].name;
-    nodeList[IDbase].neighbour_count++;
-    printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
+    }
     for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
         printf("%s, ", nodeList[IDbase].neighbourList[i]);
+    }
+    //Add Edge on Base
+    nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDadd].name;
+    printf("Node ID add name: %s",nodeList[IDadd].name);
+    nodeList[IDbase].neighbour_count++;
+    if(DEBUG){
+        printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
+    for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
+        printf("%s, ", nodeList[IDbase].neighbourList[i]);
+    }
+    printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
     }
     //Add Edge on Add
     nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = nodeList[IDbase].name;
     nodeList[IDadd].neighbour_count++;
+    
 }
 
 
@@ -341,6 +350,7 @@ int main (void) {
         }
         getNode(input_ptr);
     }
+
     for(int i = 0; i < nodeCounter; i++){
         printf("Neighbours von %s am Ende: \n", nodeList[i].name);
         for(int j = 0; j < (int)nodeList[i].neighbour_count; j++){
