@@ -14,7 +14,7 @@ static int nodeCounter = 0;
 uint64_t string_buffer_size = START_BUFFER;
 //uint64_t *marks = NULL;
 struct Node *nodeList = NULL;
-int DEBUG = 0;
+int DEBUG = 1;
 
 
 struct Node {
@@ -112,8 +112,16 @@ int goStep(int currentNode){
 
     int idNextNode;
     int neighbourStep;
+    if(DEBUG){
+        printf("Step: documentation: \n");
+        
+    }
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
     idNextNode = isDuplicate(nodeList[currentNode].neighbourList[neighbourStep]);
+    if(DEBUG){
+        printf("neighbourstep: %d, idNextNode: %d, nextNode: %s, currentNode: %s \n",neighbourStep,idNextNode,nodeList[idNextNode].name,nodeList[currentNode].name);
+        
+    }
     /*
     for(int i = 0; i < neighbour_count;i++) {
         printf("%s, ", neighbourList[i]);
