@@ -80,7 +80,7 @@ void addEdge(int IDbase, int IDadd) {
     
     //nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
     char* tmp;
-    tmp = nodeList[IDadd].name;
+    strcpy(tmp,nodeList[IDadd].name);
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
     sortNeighbours(IDbase);
@@ -95,7 +95,7 @@ void addEdge(int IDbase, int IDadd) {
     //Add Edge on Add
     
     //nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList, (nodeList[IDadd].neighbour_count+1) * sizeof(char*));
-    tmp = nodeList[IDbase].name;
+    strcpy(tmp,nodeList[IDbase].name);
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(char*));
     nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
     sortNeighbours(IDadd);
