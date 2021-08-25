@@ -123,21 +123,20 @@ int isDuplicate(char *node) {
 //adds an entry of 1 into the column and row in the global adjacency Matrix
 void addEdge(int IDbase, int IDadd) {
     if (DEBUG) {
-        printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
+        
     }
+    printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
+    printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
     //Add Edge on Base
-    nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDadd].name;
-    printf("Neighbourcount: %d\n",nodeList[IDbase].neighbour_count);
-    sortList(nodeList[IDbase].neighbourList,(int)nodeList[IDbase].neighbour_count);
     nodeList[IDbase].neighbour_count++;
-    
-    //add Edge on Add
-    nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList, (nodeList[IDadd].neighbour_count+1) * sizeof(char*));
-    nodeList[IDadd].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDbase].name;
-    sortList(nodeList[IDadd].neighbourList,(int)nodeList[IDadd].neighbour_count);
+    printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
+    for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
+        printf("%s, ", nodeList[IDbase].neighbourList[i]);
+    }
+    //Add Edge on Add
+    nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = nodeList[IDbase].name;
     nodeList[IDadd].neighbour_count++;
-  
 }
 
 
@@ -342,7 +341,12 @@ int main (void) {
         }
         getNode(input_ptr);
     }
-    
+    for(int i = 0; i < nodeCounter; i++){
+        printf("Neighbours von %s am Ende: \n", nodeList[i].name);
+        for(int j = 0; j < (int)nodeList[i].neighbour_count; j++){
+            printf("%s, ", nodeList[i].neighbourList[j]);
+        }
+    }
     int startNodeId = 0;
     startNodeId = getStartConditions(input_ptr); //line starting with A
     getline(&input_ptr, &len, stdin);
@@ -367,6 +371,7 @@ int main (void) {
         steps--;
         //nextNode = goStep(nextNode);
     }
+    printf("Node c: %s\n", nodeList[2].name);
     free(adjacencyMatrix);
     for (int j = 0; j < nodeCounter; j++) {
         printf("%s:%d\n", nodeList[j].name, (int)nodeList[j].mark);
