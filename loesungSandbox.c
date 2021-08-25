@@ -13,7 +13,7 @@ int BUFFER_SIZE = 64;
 static int nodeCounter = 0;
 uint8_t **adjacencyMatrix = NULL;
 uint64_t string_buffer_size = START_BUFFER;
-uint64_t *marks = NULL;
+//uint64_t *marks = NULL;
 struct Node *nodeList = NULL;
 int DEBUG = 1;
 
@@ -118,7 +118,7 @@ void addEdge(int IDbase, int IDadd) {
     }
     //Add Edge on Base
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDadd].name;
-    printf("Node ID add name: %s",nodeList[IDadd].name);
+    sortList(nodeList[IDbase].neighbourList,targetNode.neighbour_count);
     nodeList[IDbase].neighbour_count++;
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
@@ -129,6 +129,7 @@ void addEdge(int IDbase, int IDadd) {
     }
     //Add Edge on Add
     nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = nodeList[IDbase].name;
+    sortList(nodeList[IDadd].neighbourList,targetNode.neighbour_count);
     nodeList[IDadd].neighbour_count++;
     
 }
@@ -293,11 +294,11 @@ int main (void) {
     
     char *input_ptr = malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
-    marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
+    //marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
     
     size_t len = 0;
     //printf("Here\n");
-    
+    input_ptr[0] = 'A';
     while (strcmp(input_ptr, "")) {
         if(DEBUG)printf("input main: %s",input_ptr);
         memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string

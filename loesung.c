@@ -81,7 +81,7 @@ void addEdge(int IDbase, int IDadd) {
 }
 
 //sorts a given List, used for sorting neighbournodes list
-void sortList(char **List, int n) {
+static void sortList(char **List, int n) {
     char *tmp;
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
@@ -274,7 +274,7 @@ int main (void) {
     
     size_t len = 0;
     //printf("Here\n");
-    
+    input_ptr[0] = 0;
     while (strcmp(input_ptr, "")) {
         if(DEBUG)printf("input main: %s",input_ptr);
         memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
@@ -285,9 +285,17 @@ int main (void) {
             if(DEBUG)printf("Reallocate: new string buffer: %d\n", (int)string_buffer_size);
             char *tmp = malloc(string_buffer_size * sizeof(char));
             getline(&tmp, &len, stdin);
-            input_ptr = realloc(input_ptr, string_buffer_size * sizeof(char) + string_buffer_size / 2);
+            char* memoryTmp;
+            memoryTmp = realloc(input_ptr, string_buffer_size * sizeof(char) + string_buffer_size / 2);
+            if(memoryTmp == NULL ) {
+                exit(25); //ERROR Code ausgeben
+            }
+            else{
+                input_ptr = memoryTmp;
+            }
             input_ptr = strcat(input_ptr, tmp);
             free(tmp);
+            free(memoryTmp);
         }
         
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
