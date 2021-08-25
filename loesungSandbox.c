@@ -118,7 +118,7 @@ void addEdge(int IDbase, int IDadd) {
     }
     //Add Edge on Base
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDadd].name;
-    sortList(nodeList[IDbase].neighbourList,targetNode.neighbour_count);
+    sortList(nodeList[IDbase].neighbourList,nodeList[IDbase].neighbour_count);
     nodeList[IDbase].neighbour_count++;
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
@@ -129,7 +129,7 @@ void addEdge(int IDbase, int IDadd) {
     }
     //Add Edge on Add
     nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = nodeList[IDbase].name;
-    sortList(nodeList[IDadd].neighbourList,targetNode.neighbour_count);
+    sortList(nodeList[IDadd].neighbourList,nodeList[IDbase].neighbour_count);
     nodeList[IDadd].neighbour_count++;
     
 }
@@ -207,7 +207,7 @@ void getNode(char *input){
             }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
-                marks[idFirstNode] = atoi(node);
+                //marks[idFirstNode] = atoi(node);
                 nodeList[idFirstNode].mark = atoi(node);
                 break;
             }
