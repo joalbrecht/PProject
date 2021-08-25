@@ -1,11 +1,13 @@
+#define _GNU_SOURCE
+#define  _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 
 #define START_BUFFER 256
-#define  _POSIX_C_SOURCE 200809L
-#define _GNU_SOURCE
+
+
 
 int BUFFER_SIZE = 1028;
 static int nodeCounter = 0;
@@ -352,7 +354,7 @@ int main (void) {
         printf("Meine Nodes: \n");
         for (int i = 0; i < nodeCounter; i++)
         {
-            printf("Node: %s, Markierung: %llu\n", nodeList[i].name, marks[i]);
+            printf("Node: %s, Markierung: %llu\n", nodeList[i].name, nodeList[i].mark);
         }
         printf("Node Counter: %d\n", nodeCounter);
         printf("Matrix: \n");
@@ -367,7 +369,7 @@ int main (void) {
     }
     free(adjacencyMatrix);
     for (int j = 0; j < nodeCounter; j++) {
-        printf("%s:%llu\n", nodeList[j].name, marks[j]);
+        printf("%s:%d\n", nodeList[j].name, (int)nodeList[j].mark);
     }
 
     printf("E:%s\n", nodeList[nextNode].name);
