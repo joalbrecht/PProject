@@ -312,7 +312,7 @@ int main (void) {
     size_t len = 0;
     //printf("Here\n");
     
-    while (getline(&input_ptr, &len, stdin)!=0) {
+    while (getline(&input_ptr, &len, stdin)!=-1) {
         if(DEBUG)printf("input main: %s",input_ptr);
         printf("Input: %s", input_ptr);
         //memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
