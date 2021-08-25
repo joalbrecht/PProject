@@ -47,17 +47,8 @@ void sortList(char** List, int8_t n) {
     }
 }
 void addNeighbour(struct Node targetNode, char* newNode){
-    //char* tmp;
     
-    //printf("Current Count: %d, New Neighbour: %s\n",targetNode.neighbour_count,newNode);
     targetNode.neighbourList = realloc(targetNode.neighbourList, (targetNode.neighbour_count+1) * sizeof(char*));
-    /*for(uint32_t i = 0; i < targetNode.neighbour_count; i++) {
-        if(strcmp(targetNode.neighbourList[i],newNode) > 0 ){
-            tmp = targetNode.neighbourList[i];
-            targetNode.neighbourList[i] = newNode;
-            newNode = tmp;
-        }
-    }*/
     targetNode.neighbourList[targetNode.neighbour_count] = newNode;
     sortList(targetNode.neighbourList,targetNode.neighbour_count);
     targetNode.neighbour_count++;
@@ -112,13 +103,7 @@ int isDuplicate(char *node) {
     return -1;
 }
 
-//adds a Node to the global NodeList
-/*void addNode2(char *node) {
-    char *tmp = malloc((strlen(node) + 1) * sizeof(char));
-    strcpy(tmp, node);
-    nodeList[nodeCounter] = tmp;
-    nodeCounter++;
-}*/
+
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
 void addEdge(int IDbase, int IDadd) {
@@ -150,20 +135,6 @@ void addEdge(int IDbase, int IDadd) {
 
 
 
-//gets the number of neighbour nodes, and also modifies the given list of neighbour nodes in the function
-/*int getNeighbourNodes(int nodeId, char** neighbourList) {
-    neighbour_count = 0;
-    for (int i = 0; i < nodeCounter; i++)
-    {
-        if (adjacencyMatrix[nodeId][i] == 1)
-        {
-            neighbourList[neighbour_count] = nodeList[i];
-            neighbour_count++;
-        }
-    }
-    sortList(neighbourList, neighbour_count);
-    return neighbour_count;
-}*/
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
 int goStep(int currentNode){
@@ -321,20 +292,32 @@ int main (void) {
     }
     // INIT MATRIX END
     
+    FILE *fp;
+    if (argc > 1) {
+        if (strcmp(argv[1], "-") == 0)     
+                fp = stdin;                    
+        else
+            fp = fopen(argv[1], "r");
+    }
+    else {
+        fp = stdin;
+    }
+
 
     }
-    char *input_ptr = malloc(START_BUFFER * sizeof(char*));
+    char *input_ptr = NULL;//= malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
     marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
     
     size_t len = 0;
     //printf("Here\n");
     
-    while (strcmp(input_ptr, "")) {
+    while (getline(&input_ptr, &len, stdin)!=0) {
         if(DEBUG)printf("input main: %s",input_ptr);
-        memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
-        getline(&input_ptr, &len, stdin);
-        while (!(input_ptr[strlen(input_ptr) - 1] == '\n')){
+        printf("Input: %s", input_ptr);
+        //memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
+        
+        /*while (!(input_ptr[strlen(input_ptr) - 1] == '\n')){
             
             string_buffer_size = string_buffer_size * 2; // double buffer size
             if(DEBUG)printf("Reallocate: new string buffer: %d\n", (int)string_buffer_size);
@@ -343,7 +326,7 @@ int main (void) {
             input_ptr = realloc(input_ptr, string_buffer_size * sizeof(char) + string_buffer_size / 2);
             input_ptr = strcat(input_ptr, tmp);
             free(tmp);
-        }
+        }*/
         
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             break;
@@ -386,7 +369,7 @@ int main (void) {
     for (int j = 0; j < nodeCounter; j++) {
         printf("%s:%d\n", nodeList[j].name, (int)nodeList[j].mark);
     }
-
+    if(fp != stdin)fclose(fp);
     printf("E:%s\n", nodeList[nextNode].name);
 
     return 0;
