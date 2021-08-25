@@ -227,9 +227,9 @@ void getNode(char *input){
                     if(DEBUG) printf("nodeList Ptr: %p \n", (void*) nodeList);
                     nodeList = (struct Node*) realloc(nodeList, BUFFER_SIZE * sizeof(struct Node));
                     if(DEBUG)printf("nodeList reallocated\n");
-                    if (DEBUG) printf("marks Ptr: %p \n", (void*) marks);
+                    /*if (DEBUG) printf("marks Ptr: %p \n", (void*) marks);
                     marks = (uint64_t*) realloc(marks, BUFFER_SIZE * sizeof(uint64_t));
-                    if(DEBUG)printf("marks reallocated\n");
+                    if(DEBUG)printf("marks reallocated\n");*/
                     //printf("here2\n");
                 }
                 
