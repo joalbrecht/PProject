@@ -285,14 +285,14 @@ int main (void) {
             if(DEBUG)printf("Reallocate: new string buffer: %d\n", (int)string_buffer_size);
             char *tmp = malloc(string_buffer_size * sizeof(char));
             getline(&tmp, &len, stdin);
-            char* memoryTmp;
+            /*char* memoryTmp;
             memoryTmp = realloc(input_ptr, string_buffer_size * sizeof(char) + string_buffer_size / 2);
             if(memoryTmp == NULL ) {
                 exit(25); //ERROR Code ausgeben
             }
             else{
                 input_ptr = memoryTmp;
-            }
+            }*/
             input_ptr = strcat(input_ptr, tmp);
             free(tmp);
             free(memoryTmp);
