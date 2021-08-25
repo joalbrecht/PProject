@@ -77,8 +77,10 @@ void addEdge(int IDbase, int IDadd) {
     }
     }
     //Add Edge on Base
+    
     //nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
-    nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = nodeList[IDadd].name;
+    char* tmp = nodeList[IDadd].name;
+    nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
     sortList(nodeList[IDbase].neighbourList,nodeList[IDbase].neighbour_count);
     nodeList[IDbase].neighbour_count++;
     if(DEBUG){
@@ -89,10 +91,14 @@ void addEdge(int IDbase, int IDadd) {
     printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
     }
     //Add Edge on Add
+    
     //nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList, (nodeList[IDadd].neighbour_count+1) * sizeof(char*));
-    nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = nodeList[IDbase].name;
+    
+    tmp = nodeList[IDbase].name;
+    nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
     sortList(nodeList[IDadd].neighbourList,nodeList[IDadd].neighbour_count);
     nodeList[IDadd].neighbour_count++;
+    free(tmp);
     
 }
 
@@ -286,7 +292,7 @@ int main (void) {
         steps--;
         nextNode = goStep(nextNode);
     }
-    free(adjacencyMatrix);
+
     for (int j = 0; j < nodeCounter; j++) {
         printf("%s:%d\n", nodeList[j].name, (int)nodeList[j].mark);
     }
