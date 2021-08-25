@@ -79,7 +79,9 @@ void addEdge(int IDbase, int IDadd) {
     //Add Edge on Base
     
     //nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
-    char* tmp = nodeList[IDadd].name;
+    char* tmp;
+    tmp = nodeList[IDadd].name;
+    nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
     sortList(nodeList[IDbase].neighbourList,nodeList[IDbase].neighbour_count);
     nodeList[IDbase].neighbour_count++;
@@ -93,12 +95,12 @@ void addEdge(int IDbase, int IDadd) {
     //Add Edge on Add
     
     //nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList, (nodeList[IDadd].neighbour_count+1) * sizeof(char*));
-    
     tmp = nodeList[IDbase].name;
+    nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(char*));
     nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
     sortList(nodeList[IDadd].neighbourList,nodeList[IDadd].neighbour_count);
     nodeList[IDadd].neighbour_count++;
-    free(tmp);
+    //free(tmp);
     
 }
 
@@ -110,15 +112,13 @@ int goStep(int currentNode){
 
     int idNextNode;
     int neighbourStep;
-    
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
-
     idNextNode = isDuplicate(nodeList[currentNode].neighbourList[neighbourStep]);
     /*
     for(int i = 0; i < neighbour_count;i++) {
         printf("%s, ", neighbourList[i]);
     } */
-    //idNextNode = 0 ;
+    
     nodeList[currentNode].mark++;
     return idNextNode;
 }
