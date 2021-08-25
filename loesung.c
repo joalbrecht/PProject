@@ -29,7 +29,7 @@ static void sortList(char** List, int n) {
     char *tmp;
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
-            if (strcmp(List[i], List[j]) > 0) {
+            if (strcmp(List[i], List[j]) < 0) {
                 tmp = List[i];
                 List[i] = List[j];
                 List[j] = tmp;
