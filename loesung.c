@@ -295,18 +295,18 @@ int main (void) {
     }
     // INIT MATRIX END
     
-    char *input_ptr = malloc(START_BUFFER * sizeof(char*));
+    char *input_ptr = NULL; //malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
     //marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
     
     size_t len = 0;
     //printf("Here\n");
-    input_ptr[0] = 'A';
-    while (strcmp(input_ptr, "")) {
+    //input_ptr[0] = 'A';
+    while (getline(&input_ptr, &len, stdin) != -1) {
         if(DEBUG)printf("input main: %s",input_ptr);
-        memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
-        getline(&input_ptr, &len, stdin);
-        while (!(input_ptr[strlen(input_ptr) - 1] == '\n')){
+        //memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
+        //getline(&input_ptr, &len, stdin);
+        /*while (!(input_ptr[strlen(input_ptr) - 1] == '\n')){
             
             string_buffer_size = string_buffer_size * 2; // double buffer size
             if(DEBUG)printf("Reallocate: new string buffer: %d\n", (int)string_buffer_size);
@@ -316,7 +316,7 @@ int main (void) {
             input_ptr = strcat(input_ptr, tmp);
             free(tmp);
         }
-        
+        */
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             break;
         }
