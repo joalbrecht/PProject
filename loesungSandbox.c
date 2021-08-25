@@ -354,7 +354,7 @@ int main (void) {
         printf("Meine Nodes: \n");
         for (int i = 0; i < nodeCounter; i++)
         {
-            printf("Node: %s, Markierung: %llu\n", nodeList[i].name, nodeList[i].mark);
+            printf("Node: %s, Markierung: %d\n", nodeList[i].name, (int)nodeList[i].mark);
         }
         printf("Node Counter: %d\n", nodeCounter);
         printf("Matrix: \n");
