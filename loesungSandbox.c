@@ -6,13 +6,14 @@
 #include <string.h>
 
 #define START_BUFFER 256
-
+#define stdin __stdinp
 
 
 int BUFFER_SIZE = 64;
 static int nodeCounter = 0;
 uint8_t **adjacencyMatrix = NULL;
 uint64_t string_buffer_size = START_BUFFER;
+uint64_t *marks = NULL;
 struct Node *nodeList = NULL;
 int DEBUG = 1;
 
@@ -46,8 +47,17 @@ void sortList(char** List, int8_t n) {
     }
 }
 void addNeighbour(struct Node targetNode, char* newNode){
+    //char* tmp;
     
+    //printf("Current Count: %d, New Neighbour: %s\n",targetNode.neighbour_count,newNode);
     targetNode.neighbourList = realloc(targetNode.neighbourList, (targetNode.neighbour_count+1) * sizeof(char*));
+    /*for(uint32_t i = 0; i < targetNode.neighbour_count; i++) {
+        if(strcmp(targetNode.neighbourList[i],newNode) > 0 ){
+            tmp = targetNode.neighbourList[i];
+            targetNode.neighbourList[i] = newNode;
+            newNode = tmp;
+        }
+    }*/
     targetNode.neighbourList[targetNode.neighbour_count] = newNode;
     sortList(targetNode.neighbourList,targetNode.neighbour_count);
     targetNode.neighbour_count++;
@@ -102,7 +112,13 @@ int isDuplicate(char *node) {
     return -1;
 }
 
-
+//adds a Node to the global NodeList
+/*void addNode2(char *node) {
+    char *tmp = malloc((strlen(node) + 1) * sizeof(char));
+    strcpy(tmp, node);
+    nodeList[nodeCounter] = tmp;
+    nodeCounter++;
+}*/
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
 void addEdge(int IDbase, int IDadd) {
@@ -134,6 +150,20 @@ void addEdge(int IDbase, int IDadd) {
 
 
 
+//gets the number of neighbour nodes, and also modifies the given list of neighbour nodes in the function
+/*int getNeighbourNodes(int nodeId, char** neighbourList) {
+    neighbour_count = 0;
+    for (int i = 0; i < nodeCounter; i++)
+    {
+        if (adjacencyMatrix[nodeId][i] == 1)
+        {
+            neighbourList[neighbour_count] = nodeList[i];
+            neighbour_count++;
+        }
+    }
+    sortList(neighbourList, neighbour_count);
+    return neighbour_count;
+}*/
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
 int goStep(int currentNode){
@@ -205,7 +235,7 @@ void getNode(char *input){
             }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
-                //marks[idFirstNode] = atoi(node);
+                marks[idFirstNode] = atoi(node);
                 nodeList[idFirstNode].mark = atoi(node);
                 break;
             }
@@ -225,7 +255,9 @@ void getNode(char *input){
                     if(DEBUG) printf("nodeList Ptr: %p \n", (void*) nodeList);
                     nodeList = (struct Node*) realloc(nodeList, BUFFER_SIZE * sizeof(struct Node));
                     if(DEBUG)printf("nodeList reallocated\n");
-                    
+                    if (DEBUG) printf("marks Ptr: %p \n", (void*) marks);
+                    marks = (uint64_t*) realloc(marks, BUFFER_SIZE * sizeof(uint64_t));
+                    if(DEBUG)printf("marks reallocated\n");
                     //printf("here2\n");
                 }
                 
@@ -255,7 +287,6 @@ void getNode(char *input){
             }
             /*if(input[i] == '\n'){
                 marks[idFirstNode] = 0;
-
             }*/
             nodeSize = 0;
             if (input[i] == '-' ) {
@@ -293,7 +324,7 @@ int main (void) {
     }
     char *input_ptr = malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
-    //marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
+    marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
     
     size_t len = 0;
     //printf("Here\n");
@@ -354,7 +385,7 @@ int main (void) {
     for (int j = 0; j < nodeCounter; j++) {
         printf("%s:%d\n", nodeList[j].name, (int)nodeList[j].mark);
     }
-    if(fp != stdin)fclose(fp);
+
     printf("E:%s\n", nodeList[nextNode].name);
 
     return 0;
