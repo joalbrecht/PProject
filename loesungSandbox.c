@@ -303,9 +303,8 @@ int main (void) {
     
     while (strcmp(input_ptr, "")) {
         if(DEBUG)printf("input main: %s",input_ptr);
-        printf("Input: %s",input_ptr);
         memset(input_ptr, 0, strlen(input_ptr) + 1); // check whether +1 is enough to reset whole string
-        
+        getline(&input_ptr, &len, stdin);
         while (!(input_ptr[strlen(input_ptr) - 1] == '\n')){
             
             string_buffer_size = string_buffer_size * 2; // double buffer size
