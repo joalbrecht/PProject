@@ -26,10 +26,11 @@ struct Node {
 };
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void sortNeighbours(int ID ) {
-    char *tmp;
+    
     for (int i = 0; i < nodeList[ID].neighbour_count - 1; i++) {
         for (int j = i + 1; j < nodeList[ID].neighbour_count; j++) {
             if (strcmp(nodeList[ID].neighbourList[i], nodeList[ID].neighbourList[j]) > 0) {
+                char *tmp;
                 strcpy(tmp, nodeList[ID].neighbourList[i]);
                 nodeList[ID].neighbourList[i] = nodeList[ID].neighbourList[j];
                 nodeList[ID].neighbourList[j] = tmp;
