@@ -307,7 +307,7 @@ int main (void) {
         printf("Meine Nodes: \n");
         for (int i = 0; i < nodeCounter; i++)
         {
-            printf("Node: %s, Markierung: %llu\n", nodeList[i], marks[i]);
+            printf("Node: %s, Markierung: %d\n", nodeList[i], (int)marks[i]);
         }
         printf("Node Counter: %d\n", nodeCounter);
         printf("Matrix: \n");
@@ -322,7 +322,7 @@ int main (void) {
     }
     free(adjacencyMatrix);
     for (int j = 0; j < nodeCounter; j++) {
-        printf("%s:%llu\n", nodeList[j], marks[j]);
+        printf("%s:%d\n", nodeList[j], (int)marks[j]);
     }
 
     printf("E:%s\n", nodeList[nextNode]);
