@@ -9,7 +9,7 @@
 
 
 
-int BUFFER_SIZE = 1028;
+int BUFFER_SIZE = 64;
 static int nodeCounter = 0;
 uint8_t **adjacencyMatrix = NULL;
 uint64_t string_buffer_size = START_BUFFER;
