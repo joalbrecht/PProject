@@ -295,7 +295,7 @@ int main (void) {
             }*/
             input_ptr = strcat(input_ptr, tmp);
             free(tmp);
-            free(memoryTmp);
+            //free(memoryTmp);
         }
         
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
