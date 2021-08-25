@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define START_BUFFER 256
-
+#define stdin __stdinp
 
 
 int BUFFER_SIZE = 64;
@@ -321,8 +321,8 @@ int main (void) {
     }
     // INIT MATRIX END
     
-     
-    
+
+    }
     char *input_ptr = malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
     marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
