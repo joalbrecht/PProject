@@ -1,0 +1,166 @@
+#!/bin/bash
+
+# Use -c, -e, -t, -v flags
+# make executable by running "chmod +x ./test_loesung"
+# file must be run in same dir than loesung.c
+# testcases must be in ./example_testcases
+# error test must be in ./example_testcases/error_testcases
+# all test cases must have .stdin filetype
+# all normal test cases must have their .stdout file in ./example_testcases
+
+recompile=0 # -c flag is for recompiling
+dovalgrind=0 # -v flag is for valgrind, only in combination with -t,-e or both
+testerrors=0 # -e is for testing error cases
+normaltest=0 # -t is for normal given test cases
+
+cfile='loesung' # change this if you want to compile another .c file then "loesung.c"
+echo "C-Programmierprojekt testbench"
+echo "filename of .c file is: $cfile.c"
+echo
+
+# get flags do determine what to do
+while getopts cvet flag #c:v:e: would require input to c,v and e. the : is keyword
+do
+    case "${flag}" in
+        c) recompile=1;;
+        v) dovalgrind=1;;
+        e) testerrors=1;;
+        t) normaltest=1;;
+    esac
+done
+
+echo "recompile (-c) -> $recompile"
+echo "do valgrind (-v) -> $dovalgrind"
+echo "test errorcases (-e) -> $testerrors"
+echo "normal tests (-t) -> $normaltest"
+echo
+
+if (( recompile == 1 )); then
+    echo "recompiling ${cfile}.c..."
+    gcc -o ${cfile} -O3 -std=c11 -Wall -Werror -Wextra -Wpedantic -DNDEBUG ${cfile}.c
+  
+    result13=$?
+    if [ $result13 == 1 ];
+    then
+        echo "compiling failed...."
+        exit 1
+    fi
+    echo "...done"
+    echo
+fi
+
+if (( normaltest == 1 ));
+then
+    passed=0
+    run=0
+    valpassed=0
+    valrun=0
+    
+    for f in ./example_testcases/*.stdin
+    do
+        full_filename="${f##*/}"
+        filename="${full_filename%.*}"
+        
+        echo "Processing $f"
+
+        echo "running output comparison..."
+        time cat $f | ./${cfile} | sort | diff <(sort example_testcases/${filename}.stdout) -
+        result=$?
+        let run=run+1
+
+        if (( result == 0 ));
+        then
+            echo "--> passed! :)"
+            let passed=passed+1
+        else
+            echo "$f --> failed! :("
+        fi
+
+        echo
+
+        if (( dovalgrind == 1 ));
+        then
+            echo "running Valgrind..."
+            let valrun=valrun+1
+            cat $f | valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=99 -q ./${cfile} 1> /dev/null
+            valreturn=$?
+            #echo "exit code = $valreturn"
+            if (( valreturn != 0 ));
+            then
+                echo "$f --> valgrind failed! :("
+            else
+                echo "--> passed! :)"
+                let valpassed=valpassed+1
+            fi
+            echo
+            echo
+        fi
+    done
+fi
+
+if (( testerrors == 1 ));
+then
+    tpassed=0
+    trun=0
+    tvalpassed=0
+    tvalrun=0
+    echo "testing errorcases"
+
+    for f in ./example_testcases/error_testcases/*.stdin
+    do
+        full_filename="${f##*/}"
+        filename="${full_filename%.*}"
+        
+        echo "Processing $f"
+
+        echo "running output comparison..."
+        cat $f | ./${cfile}
+        result=$?
+        let trun=trun+1
+
+        if (( result != 0 ));
+        then
+            echo "--> passed! :)"
+            let tpassed=tpassed+1
+        else
+            echo "$f --> failed! :("
+        fi
+
+        echo
+
+        if (( dovalgrind == 1 ));
+        then
+            echo "running Valgrind..."
+            let tvalrun=tvalrun+1
+            cat $f | valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=99 -q ./${cfile} 1> /dev/null
+            valreturn=$?
+            if (( valreturn == 99 ));
+            then
+                echo "$f --> valgrind failed! :("
+            else
+                echo "--> passed! :)"
+                let tvalpassed=tvalpassed+1
+            fi
+            echo
+            echo
+        fi
+    done
+fi
+
+if (( normaltest == 1 )); 
+then
+    echo "passed $passed/$run output tests."
+    if (( dovalgrind == 1 )); 
+    then
+        echo "passed $valpassed/$valrun valgrind tests."
+    fi
+fi
+
+if (( testerrors == 1 ));
+then
+    echo "passed $tpassed/$trun error tests."
+    if (( dovalgrind == 1 )); 
+    then
+        echo "passed $tvalpassed/$tvalrun valgrind error tests."
+    fi
+fi
