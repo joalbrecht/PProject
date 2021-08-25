@@ -268,7 +268,7 @@ int main (void) {
     }
      
     
-    char *input_ptr = malloc(START_BUFFER * sizeof(char*));
+    char *input_ptr = malloc(START_BUFFER * sizeof(char));
     nodeList = malloc(BUFFER_SIZE * sizeof(char*));
     marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
     

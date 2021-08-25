@@ -13,7 +13,6 @@ int BUFFER_SIZE = 64;
 static int nodeCounter = 0;
 uint8_t **adjacencyMatrix = NULL;
 uint64_t string_buffer_size = START_BUFFER;
-uint64_t *marks = NULL;
 struct Node *nodeList = NULL;
 int DEBUG = 1;
 
@@ -206,7 +205,7 @@ void getNode(char *input){
             }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
-                marks[idFirstNode] = atoi(node);
+                //marks[idFirstNode] = atoi(node);
                 nodeList[idFirstNode].mark = atoi(node);
                 break;
             }
@@ -226,9 +225,7 @@ void getNode(char *input){
                     if(DEBUG) printf("nodeList Ptr: %p \n", (void*) nodeList);
                     nodeList = (struct Node*) realloc(nodeList, BUFFER_SIZE * sizeof(struct Node));
                     if(DEBUG)printf("nodeList reallocated\n");
-                    if (DEBUG) printf("marks Ptr: %p \n", (void*) marks);
-                    marks = (uint64_t*) realloc(marks, BUFFER_SIZE * sizeof(uint64_t));
-                    if(DEBUG)printf("marks reallocated\n");
+                    
                     //printf("here2\n");
                 }
                 
@@ -296,7 +293,7 @@ int main (void) {
     }
     char *input_ptr = malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
-    marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
+    //marks = calloc(BUFFER_SIZE, sizeof(unsigned int));
     
     size_t len = 0;
     //printf("Here\n");
