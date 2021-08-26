@@ -263,7 +263,7 @@ void getNode(char *input){
             if(input[i]=='-'){
                 continue;
             }
-            if((isValidDigit(input[i]) == 0) && (inpiut[i] != '\n')){
+            if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
                 exit(charInMarkERROR);
             }
             node[currentNodeIndex] = input[i];
