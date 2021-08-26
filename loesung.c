@@ -12,6 +12,7 @@ static uint32_t nodeCounter = 0;
 struct Node *nodeList = NULL;
 int DEBUG = 0;
 
+#define invalidCharERROR 99
 
 struct Node {
     char* name;
@@ -19,6 +20,25 @@ struct Node {
     uint32_t neighbour_count;
     uint32_t mark;
 };
+
+static int isValidChar(char inputChar){
+
+    if((int)inputChar)>= 97 && (int)inputChar)<=122){ //between a-z
+        return 1;
+    }
+    // A,I,:,",",-, \n
+    if((int)inputChar) == 65 || (int)inputChar) == 73 || (int)inputChar) == 58 || (int)inputChar) == 44 || (int)inputChar)) == 45 || inputChar == '\n'){
+        return 1;
+    }
+    if((int)inputChar)>= 48 && (int)inputChar)<=57){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+ 
+}
+
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(uint32_t ID, char* node) {
     char *tmp = malloc((strlen(node) + 1) * sizeof(char));
@@ -194,6 +214,8 @@ uint32_t getStartConditions(char *input) {
     }
 }
 
+
+
 void getNode(char *input){
     if(DEBUG)printf("strlen input bei GetNode: %lu\n",strlen(input));
     char *node = malloc((strlen(input)+1) * sizeof(char));
@@ -207,6 +229,9 @@ void getNode(char *input){
     //iterates through the Whole input line
     for (uint32_t i = 0; i < strlen(input); i++)
     {   
+        if(isValidChar(input[i]) == 0){
+            exit(invalidCharERROR); 
+        }
         //reads the mark when a '-' has been read
         if (markerMode == 1 ) { // '-' was found, we want node score here
             if(input[i]=='-'){
@@ -310,7 +335,7 @@ int main (void) {
         }
     }
     }
-   
+    
     uint32_t startNodeId = 0;
     startNodeId = getStartConditions(input_ptr); //line starting with A
     getline(&input_ptr, &len, stdin);
