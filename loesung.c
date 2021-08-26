@@ -316,9 +316,10 @@ void getNode(char *input){
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
                 }
-                /*if(idFirstNode == idCurrentNode){
-                    exit(invalidEdgeERROR);
-                }*/
+                if(idFirstNode == idCurrentNode){
+                    
+                    printf("%s und %s sind der gleiche node. nicht so toll\n",nodeList[idFirstNode].name,nodeList[idCurrentNode].name);
+                }
                 
             }
             if (input[i] == ':') {
