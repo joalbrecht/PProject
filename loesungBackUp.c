@@ -18,6 +18,9 @@ int DEBUG = 0;
 #define noStartNodeERROR 66
 #define invalidEdgeERROR 55
 #define charInMarkERROR 44
+#define doubleNodeERROR 33
+
+
 struct Node {
     char* name;
     char** neighbourList;
@@ -30,27 +33,30 @@ static int isValidChar(char inputChar){
     if(castedChar>= 97 && castedChar<=122){ //between a-z
         return 1;
     }
-    if(castedChar>= 48 && castedChar <=57){
-        return 1;
-    }
     // A,I,:,",",-, \n
     if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44|| castedChar== 45 || castedChar == '\n'){
         return 1;
     }
-   
+    if(castedChar>= 48 && castedChar <=57){
+        return 1;
+    }
     else{
         return 0;
     }
  
 }
-/*static int isValidDigit(char inputChar){
+
+static int isValidDigit(char inputChar){
     int castedChar = (int)inputChar;
     //0-9
-     
+    if(castedChar>= 48 && castedChar <=57){
+        return 1;
+    }
     else{
         return 0;
     }
-}*/
+}
+
 
 
 
@@ -73,20 +79,17 @@ static void insertNeighbour(uint32_t ID, char* node) {
     // 
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
-            /*if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
+             if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
                 exit(invalidEdgeERROR);
-            }*/
-            if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
-                
+                }
+            if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
                     printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
-                   
                     if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
-    
                     if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
                 }
                 if(DEBUG){
@@ -211,6 +214,9 @@ uint32_t getStartConditions(char *input) {
             startRead = 1;
             continue;
         }
+        if(input[i] == '-'){
+            exit(invalidFormatERROR);
+        }
         if ((startRead == 1 && input[i] != '\n')) {
             node[j] = input[i];
             j++;
@@ -251,17 +257,19 @@ void getNode(char *input){
         if((input[i] == '-') && noMoreMinus ==1){
             exit(invalidFormatERROR);
         }
-        if(isValidChar(input[i]) == 0 || isValidDigit(input[i]) == 0){
+        if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
         if (markerMode == 1 ) { // '-' was found, we want node score here
             if(input[i]=='-'){
                 continue;
+                
             }
-            /*if(isValidDigit(input[i]) == 0){
+            if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
                 exit(charInMarkERROR);
-            }*/
+            }
+            
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
@@ -279,10 +287,20 @@ void getNode(char *input){
         if((input[i] == '-')){
             noMoreMinus = 1;
         }
+        if(i>1){
+            if(input[i] == '-' && input[i-1] == ':'){
+            markerMode = 1;
+            continue;
+            }
+        }
+        
+
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
-
+            if(nodeSize == 0 && input[i] == '\n'){
+                exit(invalidFormatERROR); //leerer Node, oder knoten alleine
+            }
             if ((isDuplicate(node) == -1) && strcmp(node, "") != 0) {
                 //printf("bis hier\n");
                 if(nodeCounter + 3 > BUFFER_SIZE){
@@ -299,12 +317,17 @@ void getNode(char *input){
                 if(DEBUG)printf("node: %s Added Successfully\n", node);
             }
             if (isFirstNode == 0) {
+                
                 idCurrentNode = isDuplicate(node);
-                if(idFirstNode!=idCurrentNode){
+                
+                if(idFirstNode != idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
                     addEdge(idFirstNode, idCurrentNode);
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
+                }
+                if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
+                    exit(doubleNodeERROR);
                 }
                 
             }
@@ -312,6 +335,7 @@ void getNode(char *input){
                 isFirstNode = 0;
                 if (isDuplicate(node) == -1) {
                     idFirstNode = nodeCounter;
+
                 }
                 else {
                     idFirstNode = isDuplicate(node);
@@ -339,6 +363,7 @@ void getNode(char *input){
         node[nodeSize] = '\0';
     }
     if(DEBUG) printf("Get Node komplett für: %s\n", input);
+    free(node);
 }
 
 
@@ -375,6 +400,9 @@ int main (void) {
     }
     if(startNodeMode == 0){
         exit(noStartNodeERROR);
+    }
+    if(getline(&input_ptr, &len, stdin) != -1){
+        exit(invalidFormatERROR);
     }
 
     if(DEBUG) {

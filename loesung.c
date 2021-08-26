@@ -23,7 +23,7 @@ int DEBUG = 0;
 
 struct Node {
     char* name;
-    char** neighbourList;
+    uint32_t* neighbourList;
     uint32_t neighbour_count;
     uint32_t mark;
 };
@@ -61,9 +61,9 @@ static int isValidDigit(char inputChar){
 
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void insertNeighbour(uint32_t ID, char* node) {
-    char *tmp = malloc((strlen(node) + 1) * sizeof(char));
-    strcpy(tmp,node);
+static void insertNeighbour(uint32_t ID, uint32_t node) {
+    //char *tmp = malloc((strlen(node) + 1) * sizeof(char));
+    //strcpy(tmp,node);
     
     if(DEBUG){
         printf("neighbour add function started \n");
@@ -71,7 +71,7 @@ static void insertNeighbour(uint32_t ID, char* node) {
     // check whether its the first neighbour, cause if so the for loop below will fail
     if (nodeList[ID].neighbour_count == 0) {
         
-        nodeList[ID].neighbourList[0] = tmp;
+        nodeList[ID].neighbourList[0] = node;
         if(DEBUG){
         printf("%s ist erster Nachbar \n", node);
         }
@@ -79,37 +79,38 @@ static void insertNeighbour(uint32_t ID, char* node) {
     // 
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
-             if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
+            
+             if(strcmp(nodeList[isDuplicate(node)].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) == 0){
                 exit(invalidEdgeERROR);
                 }
-            if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
+            if(strcmp(nodeList[isDuplicate(node)].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
                     printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
-                    if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
-                    if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
+                    if(DEBUG)printf("shifte %d von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
+                    if(DEBUG) printf("nodeList j: %d,\n", nodeList[ID].neighbourList[j]);
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
-                    if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
+                    if(DEBUG)printf("nodelist j after: %d\n", nodeList[ID].neighbourList[j]);
                 }
                 if(DEBUG){
                     printf("neighbours von %s before insert: \n", nodeList[ID].name);
                     for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
-                        printf("%s, ADresse: %p\n",nodeList[ID].neighbourList[i],(void*)nodeList[ID].neighbourList[i]);
+                        printf("%d, ADresse: %p\n",nodeList[ID].neighbourList[i],(void*)nodeList[ID].neighbourList[i]);
                     }
                 }
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 
-                nodeList[ID].neighbourList[i] = tmp;
+                nodeList[ID].neighbourList[i] = node;
                 return;
             }        
         }
-        nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
+        nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = node;
     }
     if(DEBUG){
         printf("neighbours von %s: \n", nodeList[ID].name);
         for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
-            printf("%s, \n", nodeList[ID].neighbourList[i]);
+            printf("%d, \n", nodeList[ID].neighbourList[i]);
         }
     }
 }
@@ -123,7 +124,7 @@ void addNode(char* node) {
 
     tmp.name = tmpname;
     
-    tmp.neighbourList = malloc(1 * sizeof(char*));
+    tmp.neighbourList = malloc(1 * sizeof(int*));
     nodeList[nodeCounter] = tmp;
     nodeList[nodeCounter].mark = 0;
     nodeList[nodeCounter].neighbour_count = 0;
@@ -148,19 +149,19 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
         printf("fail? \n");
         for(uint32_t i = 0; i < nodeList[IDbase].neighbour_count; i++){
-            printf("%s, ", nodeList[IDbase].neighbourList[i]);
+            printf("%d, ", nodeList[IDbase].neighbourList[i]);
         }
     }
     //Add Edge on Base
     
-    nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
-    insertNeighbour(IDbase, nodeList[IDadd].name);
+    nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(int*));
+    insertNeighbour(IDbase, IDadd);
     nodeList[IDbase].neighbour_count++;
 
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
         for(uint32_t i = 0; i < nodeList[IDbase].neighbour_count; i++){
-            printf("%s, ", nodeList[IDbase].neighbourList[i]);
+            printf("%d, ", nodeList[IDbase].neighbourList[i]);
         }
     printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
     for(uint32_t i = 0; i < nodeList[IDadd].neighbour_count; i++){
@@ -169,8 +170,8 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
     }
     //Add Edge on Add
     
-    nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(char*));
-    insertNeighbour(IDadd, nodeList[IDbase].name);
+    nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(int*));
+    insertNeighbour(IDadd, IDbase);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
 }
@@ -189,7 +190,7 @@ uint32_t goStep(uint32_t currentNode){
     if(DEBUG){
         printf("Neighbours von current node %s: \n", nodeList[currentNode].name);
         for(uint32_t i = 0; i < nodeList[currentNode].neighbour_count; i++){
-            printf("%s, ",nodeList[currentNode].neighbourList[i]);
+            printf("%d, ",nodeList[currentNode].neighbourList[i]);
         }
         printf("current mark: %d, neighbourcount: %d\n", nodeList[currentNode].mark,nodeList[currentNode].neighbour_count);
         printf("neighbourstep: %d, idNextNode: %d, nextNode: %s, currentNode: %s \n",neighbourStep,idNextNode,nodeList[idNextNode].name,nodeList[currentNode].name);
@@ -289,7 +290,7 @@ void getNode(char *input){
         }
         if(i>1){
             if(input[i] == '-' && input[i-1] == ':'){
-            markerMode =1;
+            markerMode = 1;
             continue;
             }
         }
@@ -409,7 +410,7 @@ int main (void) {
          for(uint32_t i = 0; i < nodeCounter; i++){
         printf("Neighbours von %s am Ende: \n", nodeList[i].name);
         for(uint32_t j = 0; j < nodeList[i].neighbour_count; j++){
-            printf("%s, ", nodeList[i].neighbourList[j]);
+            printf("%d, ", nodeList[i].neighbourList[j]);
         }
     }
     }
