@@ -377,7 +377,8 @@ int main (void) {
     uint32_t steps = 0;
     uint32_t startNodeId = 0;
     while (getline(&input_ptr, &len, stdin) != -1) {
-        if(DEBUG)printf("input main: %s",input_ptr);
+        //if(DEBUG)
+        printf("input main: %s",input_ptr);
        
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             startNodeMode = 1;
