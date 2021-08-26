@@ -247,6 +247,7 @@ void getNode(char *input){
     uint32_t markerMode = 0;
     int noMoreColon = 0;
     int noMoreMinus = 0;
+    int lastCharWasColon = 0;
     
     //iterates through the Whole input line
     for (uint32_t i = 0; i < strlen(input); i++)
@@ -289,6 +290,11 @@ void getNode(char *input){
             noMoreMinus = 1;
         }
         printf("current char: %c",input[i]);
+        if(i>1){
+            if(input[i] == '-' && input[i-1] == ':'){
+            continue;
+        }
+        
 
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
