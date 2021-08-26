@@ -64,8 +64,9 @@ static void insertNeighbour(int ID, char* node) {
                     }
                 }
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
+                
                 nodeList[ID].neighbourList[i] = tmp;
-                break;
+                return 0;
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
@@ -140,9 +141,6 @@ void addEdge(int IDbase, int IDadd) {
     //free(tmp);
     
 }
-
-
-
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
 int goStep(int currentNode){
