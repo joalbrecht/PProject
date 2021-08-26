@@ -259,6 +259,9 @@ void getNode(char *input){
             if(input[i]=='-'){
                 continue;
             }
+            if(isValidDigit(input[i]) == 0){
+                exit(charInMarkERROR);
+            }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
