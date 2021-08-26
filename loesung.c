@@ -58,7 +58,14 @@ static int isValidDigit(char inputChar){
 }
 
 
-
+static int isDuplicate(char *node) { 
+    for (uint32_t i = 0; i < nodeCounter; i++) {
+        if (strcmp(nodeList[i].name, node) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(uint32_t ID, uint32_t node) {
@@ -73,7 +80,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
         
         nodeList[ID].neighbourList[0] = node;
         if(DEBUG){
-        printf("%s ist erster Nachbar \n", node);
+        printf("%d ist erster Nachbar \n", node);
         }
     }
     // 
@@ -85,7 +92,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
                 }
             if(strcmp(nodeList[isDuplicate(node)].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
-                    printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
+                    printf("%s ist kleiner als %d und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %d von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
@@ -95,9 +102,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
                 }
                 if(DEBUG){
                     printf("neighbours von %s before insert: \n", nodeList[ID].name);
-                    for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
-                        printf("%d, ADresse: %p\n",nodeList[ID].neighbourList[i],(void*)nodeList[ID].neighbourList[i]);
-                    }
+                    
                 }
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 
@@ -133,14 +138,7 @@ void addNode(char* node) {
 
 
 //checks if Node is Duplicate and returns ID if not duplicate and returns -1 if duplicate
-int isDuplicate(char *node) { 
-    for (uint32_t i = 0; i < nodeCounter; i++) {
-        if (strcmp(nodeList[i].name, node) == 0) {
-            return i;
-        }
-    }
-    return -1;
-}
+
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
 void addEdge(uint32_t IDbase, uint32_t IDadd) {
@@ -165,7 +163,7 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
         }
     printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
     for(uint32_t i = 0; i < nodeList[IDadd].neighbour_count; i++){
-            printf("%s, ", nodeList[IDadd].neighbourList[i]);
+            printf("%d, ", nodeList[IDadd].neighbourList[i]);
         }
     }
     //Add Edge on Add
@@ -186,7 +184,7 @@ uint32_t goStep(uint32_t currentNode){
         
     }
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
-    idNextNode = isDuplicate(nodeList[currentNode].neighbourList[neighbourStep]);
+    idNextNode = nodeList[currentNode].neighbourList[neighbourStep];
     if(DEBUG){
         printf("Neighbours von current node %s: \n", nodeList[currentNode].name);
         for(uint32_t i = 0; i < nodeList[currentNode].neighbour_count; i++){
