@@ -48,9 +48,19 @@ static void insertNeighbour(int ID, char* node) {
                 for (int j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
                     //char* shiftTmp = malloc(sizeof(char) * strlen(nodeList[ID].neighbourList[j-1]));
-                    strcpy(nodeList[ID].neighbourList[j],nodeList[ID].neighbourList[j-1]);
+                    //nodeList[ID].neighbourList[j] = realloc(nodeList[ID].neighbourList[j],strlen(nodeList[ID].neighbourList[j-1]));
+                    //strcpy(shiftTmp,nodeList[ID].neighbourList[j-1]);
                     //nodeList[ID].neighbourList[j] = shiftTmp;
                     //free(shiftTmp);
+                    if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
+                    nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];//shiftTmp;
+                    if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
+                }
+                if(DEBUG){
+                    printf("neighbours von %s before insert: \n", nodeList[ID].name);
+                    for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
+                        printf("%s, \n", nodeList[ID].neighbourList[i]);
+                    }
                 }
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 nodeList[ID].neighbourList[i] = tmp;
