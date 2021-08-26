@@ -317,7 +317,7 @@ void getNode(char *input){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
                     addEdge(idFirstNode, idCurrentNode);
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
-                }  
+
                 }
                 
             }
