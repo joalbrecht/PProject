@@ -17,6 +17,9 @@ int DEBUG = 0;
 #define invalidFormatERROR 77
 #define noStartNodeERROR 66
 #define invalidEdgeERROR 55
+#define charInMarkERROR 44
+
+
 struct Node {
     char* name;
     char** neighbourList;
@@ -33,16 +36,23 @@ static int isValidChar(char inputChar){
     if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44|| castedChar== 45 || castedChar == '\n'){
         return 1;
     }
+    else{
+        return 0;
+    }
+ 
+}
+static int isValidDigit(char inputChar){
+    int castedChar = (int)inputChar;
+    //0-9
     if(castedChar>= 48 && castedChar <=57){
         return 1;
     }
     else{
         return 0;
     }
- 
 }
 
-int checkLineFormat();
+
 
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
@@ -241,7 +251,7 @@ void getNode(char *input){
         if((input[i] == '-') && noMoreMinus ==1){
             exit(invalidFormatERROR);
         }
-        if(isValidChar(input[i]) == 0){
+        if(isValidChar(input[i]) == 0 || isValidDigit(input[i]) == 0){
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
@@ -349,7 +359,7 @@ int main (void) {
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             startNodeMode = 1;
         }
-        if(input_ptr[0] = 'I'){
+        if(input_ptr[0] == 'I'){
             steps = getStartConditions(input_ptr);
             break;
         }
