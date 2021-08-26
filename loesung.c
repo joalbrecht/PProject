@@ -18,6 +18,7 @@ int DEBUG = 0;
 #define noStartNodeERROR 66
 #define invalidEdgeERROR 55
 #define charInMarkERROR 44
+#define doubleNodeERROR 33
 
 
 struct Node {
@@ -290,8 +291,11 @@ void getNode(char *input){
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
+            if(isFirstNode && isDuplicate(node) != -1){
+                exit(doubleNodeERROR);
+            }
             if(nodeSize == 0 && input[i] == '\n'){
-                exit(invalidFormatERROR);
+                exit(invalidFormatERROR); //leerer Node, oder knoten alleine
             }
             if ((isDuplicate(node) == -1) && strcmp(node, "") != 0) {
                 //printf("bis hier\n");
