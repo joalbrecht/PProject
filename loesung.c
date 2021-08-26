@@ -43,7 +43,7 @@ static void insertNeighbour(uint32_t ID, char* node) {
                 if(DEBUG){
                     printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
-                for (int j = nodeList[ID].neighbour_count; j > i; j--) {
+                for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
                     //char* shiftTmp = malloc(sizeof(char) * strlen(nodeList[ID].neighbourList[j-1]));
                     //nodeList[ID].neighbourList[j] = realloc(nodeList[ID].neighbourList[j],strlen(nodeList[ID].neighbourList[j-1]));
@@ -139,7 +139,7 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
 }
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
-iuint32_tnt goStep(uint32_t currentNode){
+uint32_t goStep(uint32_t currentNode){
 
     uint32_t idNextNode;
     uint32_t neighbourStep;
