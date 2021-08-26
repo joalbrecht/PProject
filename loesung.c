@@ -269,9 +269,7 @@ void getNode(char *input){
             if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
                 exit(charInMarkERROR);
             }
-            if(nodeSize == 0 && input[i] == '\n'){
-                exit(invalidFormatERROR);
-            }
+            
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
@@ -292,7 +290,9 @@ void getNode(char *input){
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
-
+            if(nodeSize == 0 && input[i] == '\n'){
+                exit(invalidFormatERROR);
+            }
             if ((isDuplicate(node) == -1) && strcmp(node, "") != 0) {
                 //printf("bis hier\n");
                 if(nodeCounter + 3 > BUFFER_SIZE){
