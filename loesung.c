@@ -215,6 +215,9 @@ uint32_t getStartConditions(char *input) {
             startRead = 1;
             continue;
         }
+        if(inpit[i] == '-'){
+            exit(invalidFormatERROR);
+        }
         if ((startRead == 1 && input[i] != '\n')) {
             node[j] = input[i];
             j++;
@@ -265,6 +268,9 @@ void getNode(char *input){
             }
             if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
                 exit(charInMarkERROR);
+            }
+            if(nodeSize == 0 && input[i] == '\n'){
+                exit(invalidFormatERROR);
             }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
