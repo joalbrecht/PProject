@@ -16,6 +16,7 @@ int DEBUG = 0;
 #define invalidMarkERROR 88
 #define invalidFormatERROR 77
 #define noStartNodeERROR 66
+#define invalidEdgeERROR 55
 struct Node {
     char* name;
     char** neighbourList;
@@ -63,6 +64,9 @@ static void insertNeighbour(uint32_t ID, char* node) {
     // 
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
+            if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
+                exit(invalidEdgeERROR);
+            }
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
                 
                 if(DEBUG){
@@ -288,7 +292,6 @@ void getNode(char *input){
             }
             if (isFirstNode == 0) {
                 idCurrentNode = isDuplicate(node);
-
                 if(idFirstNode!=idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
                     addEdge(idFirstNode, idCurrentNode);
