@@ -12,7 +12,7 @@ static int nodeCounter = 0;
 uint64_t string_buffer_size = START_BUFFER;
 //uint64_t *marks = NULL;
 struct Node *nodeList = NULL;
-int DEBUG = 1;
+int DEBUG = 0;
 
 
 struct Node {
@@ -66,7 +66,7 @@ static void insertNeighbour(int ID, char* node) {
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 
                 nodeList[ID].neighbourList[i] = tmp;
-                return 0;
+                return;
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
