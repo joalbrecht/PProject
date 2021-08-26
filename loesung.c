@@ -44,7 +44,7 @@ static int isValidChar(char inputChar){
     }
  
 }
-/*
+
 static int isValidDigit(char inputChar){
     int castedChar = (int)inputChar;
     //0-9
@@ -54,7 +54,7 @@ static int isValidDigit(char inputChar){
     else{
         return 0;
     }
-}*/
+}
 
 
 
@@ -255,7 +255,7 @@ void getNode(char *input){
         if((input[i] == '-') && noMoreMinus ==1){
             exit(invalidFormatERROR);
         }
-        if(isValidChar(input[i]) == 0 ){//|| isValidDigit(input[i]) == 0){
+        if((isValidChar(input[i]) == 0) && (inpiut[i] != '\n')){//|| isValidDigit(input[i]) == 0){
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
