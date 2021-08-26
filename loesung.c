@@ -7,8 +7,8 @@
 
 #define START_BUFFER 256
 
-int BUFFER_SIZE = 64;
-static int nodeCounter = 0;
+uint32_t BUFFER_SIZE = 64;
+static uint32_t nodeCounter = 0;
 struct Node *nodeList = NULL;
 int DEBUG = 0;
 
