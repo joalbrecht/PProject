@@ -17,6 +17,7 @@ int DEBUG = 0;
 #define invalidFormatERROR 77
 #define noStartNodeERROR 66
 #define invalidEdgeERROR 55
+#define charInMarkERROR 44
 struct Node {
     char* name;
     char** neighbourList;
@@ -33,13 +34,21 @@ static int isValidChar(char inputChar){
     if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44|| castedChar== 45 || castedChar == '\n'){
         return 1;
     }
-    if(castedChar>= 48 && castedChar <=57){
+   
+    else{
+        return 0;
+    }
+ 
+}
+static int isValidDigit(char inputChar){
+    int castedChar = (int)inputChar;
+    //0-9
+     if(castedChar>= 48 && castedChar <=57){
         return 1;
     }
     else{
         return 0;
     }
- 
 }
 
 int checkLineFormat();
@@ -74,14 +83,10 @@ static void insertNeighbour(uint32_t ID, char* node) {
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
-                    //char* shiftTmp = malloc(sizeof(char) * strlen(nodeList[ID].neighbourList[j-1]));
-                    //nodeList[ID].neighbourList[j] = realloc(nodeList[ID].neighbourList[j],strlen(nodeList[ID].neighbourList[j-1]));
-                    //strcpy(shiftTmp,nodeList[ID].neighbourList[j-1]);
-                    //nodeList[ID].neighbourList[j] = shiftTmp;
-                    //free(shiftTmp);
+                   
                     if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
-                    //shiftTmp;
+    
                     if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
                 }
                 if(DEBUG){
@@ -246,13 +251,16 @@ void getNode(char *input){
         if((input[i] == '-') && noMoreMinus ==1){
             exit(invalidFormatERROR);
         }
-        if(isValidChar(input[i]) == 0){
+        if(isValidChar(input[i]) == 0 || isValidDigit(input[i]) == 0){
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
         if (markerMode == 1 ) { // '-' was found, we want node score here
             if(input[i]=='-'){
                 continue;
+            }
+            if(isValidDigit == 0){
+                exit(charInMarkERROR);
             }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
@@ -353,7 +361,7 @@ int main (void) {
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             startNodeMode = 1;
         }
-        if(input_ptr[0] = 'I'){
+        if(input_ptr[0] == 'I'){
             steps = getStartConditions(input_ptr);
             break;
         }
