@@ -95,7 +95,7 @@ void addNode(char* node) {
 
 
 //checks if Node is Duplicate and returns ID if not duplicate and returns -1 if duplicate
-uint32_t isDuplicate(char *node) { 
+int isDuplicate(char *node) { 
     for (uint32_t i = 0; i < nodeCounter; i++) {
         if (strcmp(nodeList[i].name, node) == 0) {
             return i;
