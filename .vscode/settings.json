@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "istream": "c"
+        "istream": "c",
+        "string.h": "c"
     }
 }
