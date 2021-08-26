@@ -47,9 +47,10 @@ static void insertNeighbour(int ID, char* node) {
                 }
                 for (int j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
-                    char* shiftTmp;
-                    //strcpy(shiftTmp,nodeList[ID].neighbourList[j-1])
-                    nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
+                    char* shiftTmp = malloc(sizeof(char) * strlen(nodeList[ID].neighbourList[j-1]));
+                    strcpy(shiftTmp,nodeList[ID].neighbourList[j-1])
+                    nodeList[ID].neighbourList[j] = nodeList[ID].shiftTmp;
+                    free(shiftTmp);
                 }
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 nodeList[ID].neighbourList[i] = tmp;
