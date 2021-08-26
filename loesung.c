@@ -30,7 +30,7 @@ static void sortNeighbours(int ID ) {
     for (int i = 0; i < nodeList[ID].neighbour_count - 1; i++) {
         for (int j = i + 1; j < nodeList[ID].neighbour_count; j++) {
             if (strcmp(nodeList[ID].neighbourList[i], nodeList[ID].neighbourList[j]) > 0) {
-                tmp = nodeList[ID].neighbourList[i]);
+                tmp = nodeList[ID].neighbourList[i];
                 nodeList[ID].neighbourList[i] = nodeList[ID].neighbourList[j];
                 nodeList[ID].neighbourList[j] = tmp;
             }
@@ -80,7 +80,7 @@ void addEdge(int IDbase, int IDadd) {
     
     //nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
     char* tmp;
-    tmp = nodeList[IDadd].name);
+    tmp = nodeList[IDadd].name;
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
     nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
     sortNeighbours(IDbase);
