@@ -83,10 +83,10 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
         printf("%d ist erster Nachbar \n", node);
         }
     }
-    uint32_t compareID = 0;
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
-             compareID = isDuplicate(nodeList[ID].neighbourList[i])
+             
+             int compareID = nodeList[ID].neighbourList[i];
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
                 exit(invalidEdgeERROR);
                 }
