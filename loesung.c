@@ -36,11 +36,15 @@ static int isValidChar(char inputChar){
     if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44|| castedChar== 45 || castedChar == '\n'){
         return 1;
     }
+    if(castedChar>= 48 && castedChar <=57){
+        return 1;
+    }
     else{
         return 0;
     }
  
 }
+/*
 static int isValidDigit(char inputChar){
     int castedChar = (int)inputChar;
     //0-9
@@ -50,7 +54,7 @@ static int isValidDigit(char inputChar){
     else{
         return 0;
     }
-}
+}*/
 
 
 
@@ -251,7 +255,7 @@ void getNode(char *input){
         if((input[i] == '-') && noMoreMinus ==1){
             exit(invalidFormatERROR);
         }
-        if(isValidChar(input[i]) == 0 || isValidDigit(input[i]) == 0){
+        if(isValidChar(input[i]) == 0 ){//|| isValidDigit(input[i]) == 0){
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
@@ -259,9 +263,9 @@ void getNode(char *input){
             if(input[i]=='-'){
                 continue;
             }
-            if(isValidDigit(input[i]) == 0){
+            /*if(isValidDigit(input[i]) == 0){
                 exit(charInMarkERROR);
-            }
+            }*/
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
