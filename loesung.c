@@ -255,7 +255,7 @@ void getNode(char *input){
         if((input[i] == '-') && noMoreMinus ==1){
             exit(invalidFormatERROR);
         }
-        if((isValidChar(input[i]) == 0) && (inpiut[i] != '\n')){//|| isValidDigit(input[i]) == 0){
+        if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
@@ -263,9 +263,9 @@ void getNode(char *input){
             if(input[i]=='-'){
                 continue;
             }
-            /*if(isValidDigit(input[i]) == 0){
+            if((isValidDigit(input[i]) == 0) && (inpiut[i] != '\n')){
                 exit(charInMarkERROR);
-            }*/
+            }
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
