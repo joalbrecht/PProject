@@ -9,8 +9,6 @@
 
 int BUFFER_SIZE = 64;
 static int nodeCounter = 0;
-uint64_t string_buffer_size = START_BUFFER;
-//uint64_t *marks = NULL;
 struct Node *nodeList = NULL;
 int DEBUG = 0;
 
@@ -139,7 +137,6 @@ void addEdge(int IDbase, int IDadd) {
     insertNeighbour(IDadd, nodeList[IDbase].name);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
-    
 }
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
