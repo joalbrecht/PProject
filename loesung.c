@@ -29,7 +29,7 @@ static void insertNeighbour(int ID, char* node) {
     char *tmp = malloc((strlen(node) + 1) * sizeof(char));
 
     // check whether its the first neighbour, cause if so the for loop below will fail
-    if (nodeList[ID].neighbour_count == 0){
+    if (nodeList[ID].neighbour_count == 0) {
         strcpy(tmp,node);
         nodeList[ID].neighbourList[0] = tmp;
     }
@@ -37,7 +37,7 @@ static void insertNeighbour(int ID, char* node) {
         for (int i = 0; i < nodeList[ID].neighbour_count; i++) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
                 strcpy(tmp,node);
-                for(int j = nodeList[ID].neighbour_count; j > i; j--) {
+                for(int j = nodeList[ID].neighbour_count-1; j > i; j--) {
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
                 }
                 nodeList[ID].neighbourList[i] = tmp;
@@ -48,15 +48,19 @@ static void insertNeighbour(int ID, char* node) {
 }
 
 
-void addNode(char* node){ 
-    struct Node tmp ;
-    tmp.name = malloc((strlen(node) + 1) * sizeof(char));
-    strcpy(tmp.name, node);
-    tmp.neighbourList = malloc(1*sizeof(char*));
+void addNode(char* node) { 
+    struct Node tmp = malloc(1 * sizeof(struct Node));
+   
+    char* tmpname = malloc((strlen(node) + 1) * sizeof(char));
+    strcpy(tmpname, node);
+
+    tmp.name = tmpname;
+    
+    tmp.neighbourList = malloc(1 * sizeof(char*));
     nodeList[nodeCounter] = tmp;
     nodeList[nodeCounter].mark = 0;
+    nodeList[nodeCounter].neighbour_count = 0;
     nodeCounter++;
-    
 }
 
 
@@ -87,26 +91,21 @@ void addEdge(int IDbase, int IDadd) {
     }
     //Add Edge on Base
     
-    //nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
-    //tmp = nodeList[IDadd].name;
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
-    //nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
     insertNeighbour(IDbase, nodeList[IDadd].name);
     nodeList[IDbase].neighbour_count++;
+
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
-    for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
-        printf("%s, ", nodeList[IDbase].neighbourList[i]);
-    }
+        for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
+            printf("%s, ", nodeList[IDbase].neighbourList[i]);
+        }
     printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
     }
     //Add Edge on Add
     
-    //nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList, (nodeList[IDadd].neighbour_count+1) * sizeof(char*));
-    //tmp = nodeList[IDbase].name;
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(char*));
-    //nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
-    insertNeighbour(IDadd,nodeList[IDbase].name);
+    insertNeighbour(IDadd, nodeList[IDbase].name);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
     
