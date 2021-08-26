@@ -13,7 +13,8 @@ struct Node *nodeList = NULL;
 int DEBUG = 0;
 
 #define invalidCharERROR 99
-
+#define invalidMarkERROR 88
+#define invalidFormatERROR 77
 struct Node {
     char* name;
     char** neighbourList;
@@ -22,12 +23,12 @@ struct Node {
 };
 
 static int isValidChar(char inputChar){
-    int castedChar = (int)inputChar);
+    int castedChar = (int)inputChar;
     if(castedChar>= 97 && castedChar<=122){ //between a-z
         return 1;
     }
     // A,I,:,",",-, \n
-    if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44 || castedChar== 45 || castedChar == '\n'){
+    if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44|| castedChar== 45 || castedChar == '\n'){
         return 1;
     }
     if(castedChar>= 48 && castedChar <=57){
@@ -38,6 +39,9 @@ static int isValidChar(char inputChar){
     }
  
 }
+
+int checkLineFormat();
+
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(uint32_t ID, char* node) {
@@ -225,10 +229,18 @@ void getNode(char *input){
     uint32_t idFirstNode = 0;
     uint32_t idCurrentNode = 0;
     uint32_t markerMode = 0;
+    int noMoreColon = 0;
+    int noMoreMinus = 0;
     
     //iterates through the Whole input line
     for (uint32_t i = 0; i < strlen(input); i++)
     {   
+        if((input[i] == ':') && noMoreColon ==1){
+            exit(invalidFormatERROR);
+        }
+        if((input[i] == '-') && noMoreMinus ==1){
+            exit(invalidFormatERROR);
+        }
         if(isValidChar(input[i]) == 0){
             exit(invalidCharERROR); 
         }
@@ -240,14 +252,24 @@ void getNode(char *input){
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
-                nodeList[idFirstNode].mark = atoi(node);
+                uint32_t mark = atoi(node);
+                if(mark< 0 || mark > INT32_MAX ){
+                    exit(invalidMarkERROR);
+                }
+                nodeList[idFirstNode].mark =  mark;
                 break;
             }
         }
-
+        if((input[i] == ':')){
+            noMoreColon = 1;
+        }
+        if((input[i] == '-')){
+            noMoreMinus = 1;
+        }
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
-            currentNodeIndex = 0;        
+            currentNodeIndex = 0;
+
             if ((isDuplicate(node) == -1) && strcmp(node, "") != 0) {
                 //printf("bis hier\n");
                 if(nodeCounter + 3 > BUFFER_SIZE){
