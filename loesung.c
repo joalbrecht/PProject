@@ -45,7 +45,7 @@ static void insertNeighbour(int ID, char* node) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
                 
                 if(DEBUG){
-                    printf("%s ist kleiner als %s \n", node,nodeList[ID].neighbourList[i]);
+                    printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (int j = nodeList[ID].neighbour_count+1; j > i; j--) {
                     if(DEBUG)printf("shifte %s nach Position %d von %d \n",nodeList[ID].neighbourList[j-1], j, j-1);
@@ -56,14 +56,13 @@ static void insertNeighbour(int ID, char* node) {
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
-        
     }
     if(DEBUG){
-                    printf("neighbours von %s: \n", nodeList[ID].name);
-                    for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
-                        printf("%s, \n", nodeList[ID].neighbourList[i]);
-                    }
-                }
+        printf("neighbours von %s: \n", nodeList[ID].name);
+        for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
+            printf("%s, \n", nodeList[ID].neighbourList[i]);
+        }
+    }
 }
 
 
