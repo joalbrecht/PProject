@@ -7,8 +7,6 @@
 
 #define START_BUFFER 256
 
-
-
 int BUFFER_SIZE = 64;
 static int nodeCounter = 0;
 uint64_t string_buffer_size = START_BUFFER;
@@ -39,7 +37,7 @@ static void insertNeighbour(int ID, char* node) {
         printf("%s ist erster Nachbar \n", node);
         }
     }
-    // b33 neighbourcount = 2, nachbarn: a,c -> e soll hinzugefügt werden
+    // 
     else {
         for (int i = 0; i < nodeList[ID].neighbour_count; i++) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
@@ -47,10 +45,13 @@ static void insertNeighbour(int ID, char* node) {
                 if(DEBUG){
                     printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
-                for (int j = nodeList[ID].neighbour_count+1; j > i; j--) {
-                    if(DEBUG)printf("shifte %s nach Position %d von %d \n",nodeList[ID].neighbourList[j-1], j, j-1);
+                for (int j = nodeList[ID].neighbour_count; j > i; j--) {
+                    if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
+                    char* shiftTmp;
+                    //strcpy(shiftTmp,nodeList[ID].neighbourList[j-1])
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
                 }
+                if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 nodeList[ID].neighbourList[i] = tmp;
                 break;
             }        
