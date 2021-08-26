@@ -53,13 +53,14 @@ static void insertNeighbour(int ID, char* node) {
                     //nodeList[ID].neighbourList[j] = shiftTmp;
                     //free(shiftTmp);
                     if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
-                    nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];//shiftTmp;
+                    nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
+                    //shiftTmp;
                     if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
                 }
                 if(DEBUG){
                     printf("neighbours von %s before insert: \n", nodeList[ID].name);
                     for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
-                        printf("%s, \n", nodeList[ID].neighbourList[i]);
+                        printf("%s, ADresse: %p\n",nodeList[ID].neighbourList[i],(void*)nodeList[ID].neighbourList[i]);
                     }
                 }
                 if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
