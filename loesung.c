@@ -252,11 +252,11 @@ void getNode(char *input){
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
                 //marks[idFirstNode] = atoi(node);
-                uint32_t mark = atoi(node);
-                if(mark< 0 || mark > INT32_MAX ){
+                long mark = atoi(node);
+                if(mark < 0 || mark > INT32_MAX ){
                     exit(invalidMarkERROR);
                 }
-                nodeList[idFirstNode].mark =  mark;
+                nodeList[idFirstNode].mark =  atoi(node);
                 break;
             }
         }
