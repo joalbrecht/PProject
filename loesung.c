@@ -46,7 +46,7 @@ static void insertNeighbour(int ID, char* node) {
                 if(DEBUG){
                     printf("%s ist kleiner als %s \n", node,nodeList[ID].neighbourList[i]);
                 }
-                for(int j = nodeList[ID].neighbour_count-1; j > i; j--) {
+                for (int j = nodeList[ID].neighbour_count+1; j > i; j--) {
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
                 }
                 nodeList[ID].neighbourList[i] = tmp;
