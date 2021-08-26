@@ -26,16 +26,24 @@ struct Node {
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(int ID, char* node) {
     char *tmp = malloc((strlen(node) + 1) * sizeof(char));
-
+    if(DEBUG){
+        printf("neighbour add function started \n");
+    }
     // check whether its the first neighbour, cause if so the for loop below will fail
     if (nodeList[ID].neighbour_count == 0) {
         strcpy(tmp,node);
         nodeList[ID].neighbourList[0] = tmp;
+        if(DEBUG){
+        printf("%s ist erster Nachbar \n", node);
+        }
     }
     else {
         for (int i = 0; i < nodeList[ID].neighbour_count; i++) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
                 strcpy(tmp,node);
+                if(DEBUG){
+                    printf("%s ist kleiner als %s \n", node,nodeList[ID].neighbourList[i]);
+                }
                 for(int j = nodeList[ID].neighbour_count-1; j > i; j--) {
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
                 }
@@ -74,20 +82,15 @@ int isDuplicate(char *node) {
     return -1;
 }
 
-
-
 //adds an entry of 1 into the column and row in the global adjacency Matrix
 void addEdge(int IDbase, int IDadd) {
     if (DEBUG) {
-        
-    
-    printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
-    printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
-    printf("fail? \n");
-    for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
-        printf("%s, ", nodeList[IDbase].neighbourList[i]);
-    }
-    printf("kein fail \n");
+        printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
+        printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
+        printf("fail? \n");
+        for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
+            printf("%s, ", nodeList[IDbase].neighbourList[i]);
+        }
     }
     //Add Edge on Base
     
