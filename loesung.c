@@ -15,6 +15,7 @@ int DEBUG = 0;
 #define invalidCharERROR 99
 #define invalidMarkERROR 88
 #define invalidFormatERROR 77
+#define noStartNodeERROR 66
 struct Node {
     char* name;
     char** neighbourList;
@@ -340,15 +341,31 @@ int main (void) {
    
     
     size_t len = 0;
-
+    int startNodeMode = 0;
+    uint32_t steps = 0;
+    uint32_t startNodeId = 0;
     while (getline(&input_ptr, &len, stdin) != -1) {
         if(DEBUG)printf("input main: %s",input_ptr);
        
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
+            startNodeMode = 1;
+        }
+        if(input_ptr[0] = 'I'){
+            steps = getStartConditions(input_ptr);
             break;
         }
-        getNode(input_ptr);
+        if(startNodeMode == 0){
+            getNode(input_ptr);
+        }
+        else{
+            startNodeId = getStartConditions(input_ptr);
+        }
+        
     }
+    if(startNodeMode == 0){
+        exit(noStartNodeERROR);
+    }
+
     if(DEBUG) {
          for(uint32_t i = 0; i < nodeCounter; i++){
         printf("Neighbours von %s am Ende: \n", nodeList[i].name);
@@ -357,12 +374,6 @@ int main (void) {
         }
     }
     }
-    
-    uint32_t startNodeId = 0;
-    startNodeId = getStartConditions(input_ptr); //line starting with A
-    getline(&input_ptr, &len, stdin);
-    uint32_t steps = 0;
-    steps = getStartConditions(input_ptr); //line starting with I
 
     if (DEBUG) {
         printf("Schritte: %d\n", steps);
