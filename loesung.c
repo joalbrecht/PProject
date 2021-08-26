@@ -326,7 +326,7 @@ void getNode(char *input){
 
                 }
                 if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
-                    printf("%s und %s sind der gleiche node. nicht so toll\n",nodeList[idFirstNode].name,nodeList[idCurrentNode].name);
+                    exit(doubleNodeERROR);
                 }
                 
             }
