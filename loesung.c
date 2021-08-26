@@ -28,7 +28,7 @@ struct Node {
 static void insertNeighbour(int ID, char* node) {
     char *tmp = malloc((strlen(node) + 1) * sizeof(char));
 
-    // check whether its the first neighbour, then the for loop below will fail
+    // check whether its the first neighbour, cause if so the for loop below will fail
     if (nodeList[ID].neighbour_count == 0){
         strcpy(tmp,node);
         nodeList[ID].neighbourList[0] = tmp;
@@ -103,10 +103,10 @@ void addEdge(int IDbase, int IDadd) {
     //Add Edge on Add
     
     //nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList, (nodeList[IDadd].neighbour_count+1) * sizeof(char*));
-    tmp = nodeList[IDbase].name;
+    //tmp = nodeList[IDbase].name;
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(char*));
-    nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
-    sortNeighbours(IDadd);
+    //nodeList[IDadd].neighbourList[nodeList[IDadd].neighbour_count] = tmp;
+    insertNeighbour(IDadd,nodeList[IDbase].name);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
     
