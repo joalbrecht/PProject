@@ -16,11 +16,11 @@ int DEBUG = 0;
 struct Node {
     char* name;
     char** neighbourList;
-    int neighbour_count;
+    uint32_t neighbour_count;
     uint32_t mark;
 };
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void insertNeighbour(int ID, char* node) {
+static void insertNeighbour(uint32_t ID, char* node) {
     char *tmp = malloc((strlen(node) + 1) * sizeof(char));
     strcpy(tmp,node);
     
@@ -37,7 +37,7 @@ static void insertNeighbour(int ID, char* node) {
     }
     // 
     else {
-        for (int i = 0; i < nodeList[ID].neighbour_count; i++) {
+        for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
                 
                 if(DEBUG){
@@ -95,9 +95,8 @@ void addNode(char* node) {
 
 
 //checks if Node is Duplicate and returns ID if not duplicate and returns -1 if duplicate
-int isDuplicate(char *node) { 
-    int i;
-    for (i = 0; i < nodeCounter; i++) {
+uint32_t isDuplicate(char *node) { 
+    for (uint32_t i = 0; i < nodeCounter; i++) {
         if (strcmp(nodeList[i].name, node) == 0) {
             return i;
         }
@@ -106,12 +105,12 @@ int isDuplicate(char *node) {
 }
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
-void addEdge(int IDbase, int IDadd) {
+void addEdge(uint32_t IDbase, uint32_t IDadd) {
     if (DEBUG) {
         printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
         printf("fail? \n");
-        for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
+        for(uint32_t i = 0; i < nodeList[IDbase].neighbour_count; i++){
             printf("%s, ", nodeList[IDbase].neighbourList[i]);
         }
     }
@@ -123,11 +122,11 @@ void addEdge(int IDbase, int IDadd) {
 
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
-        for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
+        for(uint32_t i = 0; i < nodeList[IDbase].neighbour_count; i++){
             printf("%s, ", nodeList[IDbase].neighbourList[i]);
         }
     printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
-    for(int i = 0; i < (int)nodeList[IDadd].neighbour_count; i++){
+    for(uint32_t i = 0; i < nodeList[IDadd].neighbour_count; i++){
             printf("%s, ", nodeList[IDadd].neighbourList[i]);
         }
     }
@@ -140,10 +139,10 @@ void addEdge(int IDbase, int IDadd) {
 }
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
-int goStep(int currentNode){
+iuint32_tnt goStep(uint32_t currentNode){
 
-    int idNextNode;
-    int neighbourStep;
+    uint32_t idNextNode;
+    uint32_t neighbourStep;
     if(DEBUG){
         printf("Step: documentation: \n");
         
@@ -152,7 +151,7 @@ int goStep(int currentNode){
     idNextNode = isDuplicate(nodeList[currentNode].neighbourList[neighbourStep]);
     if(DEBUG){
         printf("Neighbours von current node %s: \n", nodeList[currentNode].name);
-        for(int i = 0; i < nodeList[currentNode].neighbour_count; i++){
+        for(uint32_t i = 0; i < nodeList[currentNode].neighbour_count; i++){
             printf("%s, ",nodeList[currentNode].neighbourList[i]);
         }
         printf("current mark: %d, neighbourcount: %d\n", nodeList[currentNode].mark,nodeList[currentNode].neighbour_count);
@@ -168,12 +167,12 @@ int goStep(int currentNode){
 }
 
 //reads the last 2 lines and reads the Starting node, and the number of steps
-int getStartConditions(char *input) {
+uint32_t getStartConditions(char *input) {
     char *node = malloc((strlen(input)+1) * sizeof(char));
-    int startRead = 0;
-    int j = 0;
+    uint32_t startRead = 0;
+    uint32_t j = 0;
 
-    for (int i = 0; i < (int)strlen(input); i++) {
+    for (uint32_t i = 0; i < strlen(input); i++) {
         if (input[i] == ':') {
             startRead = 1;
             continue;
@@ -198,15 +197,15 @@ int getStartConditions(char *input) {
 void getNode(char *input){
     if(DEBUG)printf("strlen input bei GetNode: %lu\n",strlen(input));
     char *node = malloc((strlen(input)+1) * sizeof(char));
-    int nodeSize = 0;
-    int currentNodeIndex = 0;
-    int isFirstNode = 1;
-    int idFirstNode = 0;
-    int idCurrentNode = 0;
-    int markerMode = 0;
+    uint32_t nodeSize = 0;
+    uint32_t currentNodeIndex = 0;
+    uint32_t isFirstNode = 1;
+    uint32_t idFirstNode = 0;
+    uint32_t idCurrentNode = 0;
+    uint32_t markerMode = 0;
     
     //iterates through the Whole input line
-    for (int i = 0; i < (int)strlen(input); i++)
+    for (uint32_t i = 0; i < strlen(input); i++)
     {   
         //reads the mark when a '-' has been read
         if (markerMode == 1 ) { // '-' was found, we want node score here
@@ -304,24 +303,24 @@ int main (void) {
         getNode(input_ptr);
     }
     if(DEBUG) {
-         for(int i = 0; i < nodeCounter; i++){
+         for(uint32_t i = 0; i < nodeCounter; i++){
         printf("Neighbours von %s am Ende: \n", nodeList[i].name);
-        for(int j = 0; j < (int)nodeList[i].neighbour_count; j++){
+        for(uint32_t j = 0; j < nodeList[i].neighbour_count; j++){
             printf("%s, ", nodeList[i].neighbourList[j]);
         }
     }
     }
    
-    int startNodeId = 0;
+    uint32_t startNodeId = 0;
     startNodeId = getStartConditions(input_ptr); //line starting with A
     getline(&input_ptr, &len, stdin);
-    int steps = 0;
+    uint32_t steps = 0;
     steps = getStartConditions(input_ptr); //line starting with I
 
     if (DEBUG) {
         printf("Schritte: %d\n", steps);
         printf("Meine Nodes: \n");
-        for (int i = 0; i < nodeCounter; i++)
+        for (uint32_t i = 0; i < nodeCounter; i++)
         {
             printf("Node: %s, Markierung: %d\n", nodeList[i].name, (int)nodeList[i].mark);
         }
@@ -330,14 +329,14 @@ int main (void) {
         //printMatrix(adjacencyMatrix,BUFFER_SIZE);
     }
     
-    int nextNode = startNodeId;
+    uint32_t nextNode = startNodeId;
     while (steps > 0) {
      
         steps--;
         nextNode = goStep(nextNode);
     }
 
-    for (int j = 0; j < nodeCounter; j++) {
+    for (uint32_t j = 0; j < nodeCounter; j++) {
         printf("%s:%d\n", nodeList[j].name, (int)nodeList[j].mark);
     }
 
