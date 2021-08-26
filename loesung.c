@@ -310,12 +310,14 @@ void getNode(char *input){
             }
             if (isFirstNode == 0) {
                 idCurrentNode = isDuplicate(node);
-
-                if(idFirstNode!=idCurrentNode){
+                if(idFirstNode == idCurrentNode){
+                    exit(invalidEdgeERROR);
+                }
+                else{
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
                     addEdge(idFirstNode, idCurrentNode);
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
-
+                }  
                 }
                 
             }
