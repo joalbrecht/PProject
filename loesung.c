@@ -247,7 +247,6 @@ void getNode(char *input){
     uint32_t markerMode = 0;
     int noMoreColon = 0;
     int noMoreMinus = 0;
-    int lastCharWasColon = 0;
     
     //iterates through the Whole input line
     for (uint32_t i = 0; i < strlen(input); i++)
@@ -293,6 +292,7 @@ void getNode(char *input){
         if(i>1){
             if(input[i] == '-' && input[i-1] == ':'){
             continue;
+            }
         }
         
 
