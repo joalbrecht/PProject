@@ -215,7 +215,7 @@ uint32_t getStartConditions(char *input) {
             startRead = 1;
             continue;
         }
-        if(inpit[i] == '-'){
+        if(input[i] == '-'){
             exit(invalidFormatERROR);
         }
         if ((startRead == 1 && input[i] != '\n')) {
