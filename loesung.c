@@ -22,7 +22,6 @@ struct Node {
     char** neighbourList;
     int neighbour_count;
     uint32_t mark;
-
 };
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(int ID, char* node) {
@@ -48,7 +47,7 @@ static void insertNeighbour(int ID, char* node) {
 }
 
 
-void addNode(char* node) { 
+void addNode(char* node) {
     struct Node tmp ; //= (struct Node*) malloc(1 * sizeof(struct Node));
    
     char* tmpname = malloc((strlen(node) + 1) * sizeof(char));
@@ -84,10 +83,11 @@ void addEdge(int IDbase, int IDadd) {
     
     printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
     printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
-    
+    printf("fail? \n");
     for(int i = 0; i < (int)nodeList[IDbase].neighbour_count; i++){
         printf("%s, ", nodeList[IDbase].neighbourList[i]);
     }
+    printf("kein fail \n");
     }
     //Add Edge on Base
     
