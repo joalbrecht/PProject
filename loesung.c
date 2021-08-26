@@ -16,6 +16,7 @@ int DEBUG = 0;
 #define invalidMarkERROR 88
 #define invalidFormatERROR 77
 #define noStartNodeERROR 66
+#define invalidEdgeERROR 55
 struct Node {
     char* name;
     char** neighbourList;
@@ -64,20 +65,18 @@ static void insertNeighbour(uint32_t ID, char* node) {
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
-                
+                if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
+                exit(invalidEdgeERROR);
+            }
                 if(DEBUG){
                     printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
-                    //char* shiftTmp = malloc(sizeof(char) * strlen(nodeList[ID].neighbourList[j-1]));
-                    //nodeList[ID].neighbourList[j] = realloc(nodeList[ID].neighbourList[j],strlen(nodeList[ID].neighbourList[j-1]));
-                    //strcpy(shiftTmp,nodeList[ID].neighbourList[j-1]);
-                    //nodeList[ID].neighbourList[j] = shiftTmp;
-                    //free(shiftTmp);
+                    
                     if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
-                    //shiftTmp;
+             
                     if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
                 }
                 if(DEBUG){
