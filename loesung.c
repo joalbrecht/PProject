@@ -387,6 +387,9 @@ int main (void) {
     if(startNodeMode == 0){
         exit(noStartNodeERROR);
     }
+    if(getline(&input_ptr, &len, stdin) != -1){
+        exit(invalidFormatERROR);
+    }
 
     if(DEBUG) {
          for(uint32_t i = 0; i < nodeCounter; i++){
