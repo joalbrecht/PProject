@@ -22,15 +22,15 @@ struct Node {
 };
 
 static int isValidChar(char inputChar){
-
-    if((int)inputChar)>= 97 && (int)inputChar)<=122){ //between a-z
+    int castedChar = (int)inputChar);
+    if(castedChar>= 97 && castedChar<=122){ //between a-z
         return 1;
     }
     // A,I,:,",",-, \n
-    if((int)inputChar) == 65 || (int)inputChar) == 73 || (int)inputChar) == 58 || (int)inputChar) == 44 || (int)inputChar)) == 45 || inputChar == '\n'){
+    if(castedChar == 65 || castedChar== 73 || castedChar == 58 || castedChar == 44 || castedChar== 45 || castedChar == '\n'){
         return 1;
     }
-    if((int)inputChar)>= 48 && (int)inputChar)<=57){
+    if(castedChar>= 48 && castedChar <=57){
         return 1;
     }
     else{
