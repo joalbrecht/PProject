@@ -71,7 +71,7 @@ static int isDuplicate(char *node) {
 static void insertNeighbour(uint32_t ID, uint32_t node) {
     //char *tmp = malloc((strlen(node) + 1) * sizeof(char));
     //strcpy(tmp,node);
-    
+    uint32_t tmp = node;
     if(DEBUG){
         printf("neighbour add function started \n");
     }
@@ -87,12 +87,12 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
             
-             if(strcmp(nodeList[isDuplicate(node)].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) == 0){
+             if(strcmp(nodeList[node].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) == 0){
                 exit(invalidEdgeERROR);
                 }
-            if(strcmp(nodeList[isDuplicate(node)].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
+            if(strcmp(nodeList[node].name, nodeList[isDuplicate(nodeList[ID].neighbourList[i])].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
-                    printf("%s ist kleiner als %d und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
+                    //printf("%s ist kleiner als %d und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %d von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
@@ -104,7 +104,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
                     printf("neighbours von %s before insert: \n", nodeList[ID].name);
                     
                 }
-                if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
+                //if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 
                 nodeList[ID].neighbourList[i] = node;
                 return;
