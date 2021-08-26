@@ -263,7 +263,6 @@ void getNode(char *input){
         //reads the mark when a '-' has been read
         if (markerMode == 1 ) { // '-' was found, we want node score here
             if(input[i]=='-'){
-                printf("skip char: %c\n",input[i]);
                 continue;
                 
             }
@@ -288,7 +287,6 @@ void getNode(char *input){
         if((input[i] == '-')){
             noMoreMinus = 1;
         }
-        printf("current char: %c",input[i]);
         if(i>1){
             if(input[i] == '-' && input[i-1] == ':'){
             continue;
@@ -299,7 +297,6 @@ void getNode(char *input){
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
-            printf("current char in add node if: %c",input[i]);
             if(nodeSize == 0 && input[i] == '\n'){
                 exit(invalidFormatERROR); //leerer Node, oder knoten alleine
             }
@@ -383,8 +380,7 @@ int main (void) {
     uint32_t steps = 0;
     uint32_t startNodeId = 0;
     while (getline(&input_ptr, &len, stdin) != -1) {
-        //if(DEBUG)
-        printf("input main: %s",input_ptr);
+        if(DEBUG)printf("input main: %s",input_ptr);
        
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             startNodeMode = 1;
