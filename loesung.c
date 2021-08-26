@@ -26,10 +26,11 @@ struct Node {
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(int ID, char* node) {
     char *tmp = malloc((strlen(node) + 1) * sizeof(char));
+    strcpy(tmp,node);
+    
     if(DEBUG){
         printf("neighbour add function started \n");
     }
-    strcpy(tmp,node);
     // check whether its the first neighbour, cause if so the for loop below will fail
     if (nodeList[ID].neighbour_count == 0) {
         
@@ -47,6 +48,7 @@ static void insertNeighbour(int ID, char* node) {
                     printf("%s ist kleiner als %s \n", node,nodeList[ID].neighbourList[i]);
                 }
                 for (int j = nodeList[ID].neighbour_count+1; j > i; j--) {
+                    if(DEBUG)printf("shifte %s nach Position %d von %d \n",nodeList[ID].neighbourList[j-1], j, j-1);
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
                 }
                 nodeList[ID].neighbourList[i] = tmp;
@@ -54,13 +56,14 @@ static void insertNeighbour(int ID, char* node) {
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
-        if(DEBUG){
+        
+    }
+    if(DEBUG){
                     printf("neighbours von %s: \n", nodeList[ID].name);
-                    for(int i = 0; i < neighbourList[nodeList[ID].neighbour_count; i++) {
+                    for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
                         printf("%s, \n", nodeList[ID].neighbourList[i]);
                     }
                 }
-    }
 }
 
 
