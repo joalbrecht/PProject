@@ -25,15 +25,23 @@ struct Node {
 
 };
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void sortNeighbours(int ID ) {
-    char *tmp;
-    for (int i = 0; i < nodeList[ID].neighbour_count - 1; i++) {
-        for (int j = i + 1; j < nodeList[ID].neighbour_count; j++) {
-            if (strcmp(nodeList[ID].neighbourList[i], nodeList[ID].neighbourList[j]) > 0) {
-                strcpy(tmp,nodeList[ID].neighbourList[i]);
-                //tmp = nodeList[ID].neighbourList[i];
-                nodeList[ID].neighbourList[i] = nodeList[ID].neighbourList[j];
-                nodeList[ID].neighbourList[j] = tmp;
+static void insertNeighbour(int ID, char* node) {
+    char *tmp = malloc((strlen(node) + 1) * sizeof(char));
+
+    // check whether its the first neighbour, then the for loop below will fail
+    if (nodeList[ID].neighbour_count == 0){
+        strcpy(tmp,node);
+        nodeList[ID].neighbourList[0] = tmp;
+    }
+    else {
+        for (int i = 0; i < nodeList[ID].neighbour_count; i++) {
+            if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
+                strcpy(tmp,node);
+                for(int j = nodeList[ID].neighbour_count; j > i; j--) {
+                    nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
+                }
+                nodeList[ID].neighbourList[i] = tmp;
+                break;
             }
         }
     }
@@ -80,11 +88,10 @@ void addEdge(int IDbase, int IDadd) {
     //Add Edge on Base
     
     //nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList, (nodeList[IDbase].neighbour_count+1) * sizeof(char*));
-    char* tmp;
-    tmp = nodeList[IDadd].name;
+    //tmp = nodeList[IDadd].name;
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(char*));
-    nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
-    sortNeighbours(IDbase);
+    //nodeList[IDbase].neighbourList[nodeList[IDbase].neighbour_count] = tmp;
+    insertNeighbour(IDbase, nodeList[IDadd].name);
     nodeList[IDbase].neighbour_count++;
     if(DEBUG){
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
