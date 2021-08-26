@@ -49,7 +49,7 @@ static void insertNeighbour(int ID, char* node) {
 
 
 void addNode(char* node) { 
-    struct Node tmp = malloc(1 * sizeof(struct Node));
+    struct Node tmp ; //= (struct Node*) malloc(1 * sizeof(struct Node));
    
     char* tmpname = malloc((strlen(node) + 1) * sizeof(char));
     strcpy(tmpname, node);
@@ -101,6 +101,9 @@ void addEdge(int IDbase, int IDadd) {
             printf("%s, ", nodeList[IDbase].neighbourList[i]);
         }
     printf("Neighbourcount von add %s: %d\n",nodeList[IDadd].name, (int)nodeList[IDadd].neighbour_count);
+    for(int i = 0; i < (int)nodeList[IDadd].neighbour_count; i++){
+            printf("%s, ", nodeList[IDadd].neighbourList[i]);
+        }
     }
     //Add Edge on Add
     
