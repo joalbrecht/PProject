@@ -318,7 +318,7 @@ void getNode(char *input){
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
                 }
-                if(idFirstNode == idCurrentNode){
+                if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
                     printf("%s und %s sind der gleiche node. nicht so toll\n",nodeList[idFirstNode].name,nodeList[idCurrentNode].name);
                 }
                 
