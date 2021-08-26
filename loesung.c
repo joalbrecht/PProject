@@ -313,6 +313,7 @@ void getNode(char *input){
                 
                 idCurrentNode = isDuplicate(node);
                 printf("ID duplicate node is set to: %d\n", idCurrentNode);
+                printf("ID first node is: %d\n", idFirstNode);
                 if(idFirstNode != idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
                     addEdge(idFirstNode, idCurrentNode);
