@@ -29,18 +29,20 @@ static void insertNeighbour(int ID, char* node) {
     if(DEBUG){
         printf("neighbour add function started \n");
     }
+    strcpy(tmp,node);
     // check whether its the first neighbour, cause if so the for loop below will fail
     if (nodeList[ID].neighbour_count == 0) {
-        strcpy(tmp,node);
+        
         nodeList[ID].neighbourList[0] = tmp;
         if(DEBUG){
         printf("%s ist erster Nachbar \n", node);
         }
     }
+    // b33 neighbourcount = 2, nachbarn: a,c -> e soll hinzugefügt werden
     else {
         for (int i = 0; i < nodeList[ID].neighbour_count; i++) {
             if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
-                strcpy(tmp,node);
+                
                 if(DEBUG){
                     printf("%s ist kleiner als %s \n", node,nodeList[ID].neighbourList[i]);
                 }
@@ -49,8 +51,9 @@ static void insertNeighbour(int ID, char* node) {
                 }
                 nodeList[ID].neighbourList[i] = tmp;
                 break;
-            }
+            }        
         }
+        nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
     }
 }
 
