@@ -79,19 +79,17 @@ static void insertNeighbour(uint32_t ID, char* node) {
     // 
     else {
         for (uint32_t i = 0; i < nodeList[ID].neighbour_count; i++) {
-            if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;;
-                if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
+             if(strcmp(node, nodeList[ID].neighbourList[i]) == 0){
                 exit(invalidEdgeERROR);
-            }
+                }
+            if(strcmp(node, nodeList[ID].neighbourList[i]) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
                     printf("%s ist kleiner als %s und  i: %d, neighbourcount: %d \n", node,nodeList[ID].neighbourList[i],i,nodeList[ID].neighbour_count);
                 }
                 for (uint32_t j = nodeList[ID].neighbour_count; j > i; j--) {
                     if(DEBUG)printf("shifte %s von Position %d nach %d \n",nodeList[ID].neighbourList[j-1], j-1, j);
-                    
                     if(DEBUG) printf("nodeList j: %s,\n", nodeList[ID].neighbourList[j]);
                     nodeList[ID].neighbourList[j] = nodeList[ID].neighbourList[j-1];
-             
                     if(DEBUG)printf("nodelist j after: %s\n", nodeList[ID].neighbourList[j]);
                 }
                 if(DEBUG){
@@ -291,9 +289,7 @@ void getNode(char *input){
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
-            if(isFirstNode && isDuplicate(node) != -1){
-                exit(doubleNodeERROR);
-            }
+        
             if(nodeSize == 0 && input[i] == '\n'){
                 exit(invalidFormatERROR); //leerer Node, oder knoten alleine
             }
