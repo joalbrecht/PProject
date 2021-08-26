@@ -57,7 +57,7 @@ static void insertNeighbour(uint32_t ID, char* node) {
                 }
                 if(DEBUG){
                     printf("neighbours von %s before insert: \n", nodeList[ID].name);
-                    for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
+                    for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
                         printf("%s, ADresse: %p\n",nodeList[ID].neighbourList[i],(void*)nodeList[ID].neighbourList[i]);
                     }
                 }
@@ -71,7 +71,7 @@ static void insertNeighbour(uint32_t ID, char* node) {
     }
     if(DEBUG){
         printf("neighbours von %s: \n", nodeList[ID].name);
-        for(int i = 0; i < nodeList[ID].neighbour_count+1; i++){
+        for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
             printf("%s, \n", nodeList[ID].neighbourList[i]);
         }
     }
