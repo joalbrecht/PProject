@@ -317,7 +317,7 @@ void getNode(char *input){
 
                 }
                 if(idFirstNode == idCurrentNode){
-                    
+
                     printf("%s und %s sind der gleiche node. nicht so toll\n",nodeList[idFirstNode].name,nodeList[idCurrentNode].name);
                 }
                 
@@ -353,6 +353,7 @@ void getNode(char *input){
         node[nodeSize] = '\0';
     }
     if(DEBUG) printf("Get Node komplett für: %s\n", input);
+    free(node);
 }
 
 
