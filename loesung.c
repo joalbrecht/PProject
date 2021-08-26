@@ -289,6 +289,7 @@ void getNode(char *input){
         }
         if(i>1){
             if(input[i] == '-' && input[i-1] == ':'){
+            markerMode =1;
             continue;
             }
         }
