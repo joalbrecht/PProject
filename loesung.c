@@ -286,6 +286,7 @@ void getNode(char *input){
         if((input[i] == '-')){
             noMoreMinus = 1;
         }
+
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
@@ -309,6 +310,7 @@ void getNode(char *input){
                 if(DEBUG)printf("node: %s Added Successfully\n", node);
             }
             if (isFirstNode == 0) {
+                printf("ID duplicate node is set to: %d", idCurrentNode);
                 idCurrentNode = isDuplicate(node);
                 if(idFirstNode != idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
@@ -317,7 +319,6 @@ void getNode(char *input){
 
                 }
                 if(idFirstNode == idCurrentNode){
-
                     printf("%s und %s sind der gleiche node. nicht so toll\n",nodeList[idFirstNode].name,nodeList[idCurrentNode].name);
                 }
                 
@@ -325,6 +326,7 @@ void getNode(char *input){
             if (input[i] == ':') {
                 isFirstNode = 0;
                 if (isDuplicate(node) == -1) {
+                    printf("ID first node is set to: %d", idFirstNode);
                     idFirstNode = nodeCounter;
                 }
                 else {
@@ -371,7 +373,8 @@ int main (void) {
     uint32_t steps = 0;
     uint32_t startNodeId = 0;
     while (getline(&input_ptr, &len, stdin) != -1) {
-        if(DEBUG)printf("input main: %s",input_ptr);
+        //if(DEBUG)
+        printf("input main: %s",input_ptr);
        
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             startNodeMode = 1;
