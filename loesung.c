@@ -54,6 +54,12 @@ static void insertNeighbour(int ID, char* node) {
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = tmp;
+        if(DEBUG){
+                    printf("neighbours von %s: \n", nodeList[ID].name);
+                    for(int i = 0; i < neighbourList[nodeList[ID].neighbour_count; i++) {
+                        printf("%s, \n", nodeList[ID].neighbourList[i]);
+                    }
+                }
     }
 }
 
