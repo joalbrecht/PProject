@@ -233,6 +233,7 @@ uint32_t getStartConditions(char *input) {
         if(input[i] == '-'){
             free(node);
             freeMemory();
+            free(input);
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
@@ -249,6 +250,7 @@ uint32_t getStartConditions(char *input) {
         if(isDuplicate(node) == -1){
             free(node);
             freeMemory();
+            free(input);
             printf("Start Node is node inlcuded in the Input. ERROR Code: %d\n",startNodeMissingERROR);
             exit(startNodeMissingERROR);
         }
