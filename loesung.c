@@ -167,12 +167,13 @@ int addEdge(uint32_t IDbase, uint32_t IDadd) {
         }
     }
     //Add Edge on Base
-    int coverForError = 0;
+    
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(int*));
     if(insertNeighbour(IDbase, IDadd)== invalidEdgeERROR){
         return invalidEdgeERROR;
     }
-    coverForError =insertNeighbour(IDbase, IDadd);
+    int coverForError = 0;
+    coverForError = insertNeighbour(IDbase, IDadd);
     nodeList[IDbase].neighbour_count++;
 
     if(DEBUG){
@@ -386,7 +387,7 @@ void getNode(char *input){
                         free(input);
                         freeMemory();
                         printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
-                         exit(invalidEdgeERROR);
+                        exit(invalidEdgeERROR);
                     }
                     int coverForError= 0;
                     coverForError = addEdge(idFirstNode, idCurrentNode);
