@@ -100,6 +100,8 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
              int compareID = nodeList[ID].neighbourList[i];
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
                 freeMemory();
+                free(node);
+                free(ID);
                 printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
                 exit(invalidEdgeERROR);
                 }
