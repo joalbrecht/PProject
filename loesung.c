@@ -119,7 +119,6 @@ static int insertNeighbour(uint32_t ID, uint32_t node) {
                 //if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 
                 nodeList[ID].neighbourList[i] = node;
-                return;
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = node;
