@@ -81,7 +81,7 @@ static int isDuplicate(char *node) {
 }
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void insertNeighbour(uint32_t ID, uint32_t node) {
+static int insertNeighbour(uint32_t ID, uint32_t node) {
     
     if(DEBUG){
         printf("neighbour add function started \n");
@@ -124,6 +124,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = node;
     }
+    return 0;
     if(DEBUG){
         printf("neighbours von %s: \n", nodeList[ID].name);
         for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
@@ -153,7 +154,7 @@ void addNode(char* node) {
 
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
-void addEdge(uint32_t IDbase, uint32_t IDadd) {
+int addEdge(uint32_t IDbase, uint32_t IDadd) {
     if (DEBUG) {
         printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
@@ -189,6 +190,7 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
     }
     insertNeighbour(IDadd, IDbase);
     nodeList[IDadd].neighbour_count++;
+    return 0;
     //free(tmp);
 }
 
