@@ -19,6 +19,10 @@ int DEBUG = 0;
 #define invalidEdgeERROR 55
 #define charInMarkERROR 44
 #define doubleNodeERROR 33
+#define edgeToSelfERROR 22
+#define noNodesERROR 11
+#define startNodeMissingERROR 111
+
 
 
 struct Node {
@@ -226,6 +230,9 @@ uint32_t getStartConditions(char *input) {
         }
     }
     if (input[0] == 'A') {
+        if(isDuplicate(node) == -1){
+            exit(startNodeMissingERROR);
+        }
         return isDuplicate(node);
     }
     else {
@@ -326,7 +333,7 @@ void getNode(char *input){
 
                 }
                 if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
-                    exit(doubleNodeERROR);
+                    exit(edgeToSelfERROR);
                 }
                 
             }
@@ -384,6 +391,7 @@ int main (void) {
        
         if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
             startNodeMode = 1;
+            startNodeId = getStartConditions(input_ptr);
         }
         if(input_ptr[0] == 'I'){
             steps = getStartConditions(input_ptr);
@@ -392,10 +400,10 @@ int main (void) {
         if(startNodeMode == 0){
             getNode(input_ptr);
         }
-        else{
-            startNodeId = getStartConditions(input_ptr);
-        }
         
+    }
+    if(nodeCounter == 0){
+        exit(noNodesERROR);
     }
     if(startNodeMode == 0){
         exit(noStartNodeERROR);
