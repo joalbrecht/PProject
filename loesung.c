@@ -122,7 +122,7 @@ static int insertNeighbour(uint32_t ID, uint32_t node) {
                 //if(DEBUG)printf("füge %s ein an Index %d", tmp,i);
                 
                 nodeList[ID].neighbourList[i] = node;
-                return;
+                return 0;
             }        
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = node;
@@ -379,7 +379,7 @@ void getNode(char *input){
             if (isFirstNode == 0) {
                 
                 idCurrentNode = isDuplicate(node);
-                int coverForError= 0;
+                
                 if(idFirstNode != idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
                     if(addEdge(idFirstNode, idCurrentNode) == invalidEdgeERROR){
@@ -388,6 +388,7 @@ void getNode(char *input){
                         printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
                          exit(invalidEdgeERROR);
                     }
+                    int coverForError= 0;
                     coverForError = addEdge(idFirstNode, idCurrentNode);
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
