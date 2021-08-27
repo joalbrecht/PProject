@@ -102,8 +102,8 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
              int compareID = nodeList[ID].neighbourList[i];
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
                 freeMemory();
-                return;
-                
+                printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
+                exit(invalidEdgeERROR);
                 }
             if(strcmp(nodeList[node].name, nodeList[compareID].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
@@ -508,14 +508,7 @@ int main (void) {
     }
 
     printf("E:%s\n", nodeList[nextNode].name);
-    
     free(input_ptr);
     freeMemory();
     return 0;
-    there:
-    free(input_ptr);
-    freeMemory();
-    printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
-    exit(invalidEdgeERROR);
-
 }
