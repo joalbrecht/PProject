@@ -33,7 +33,14 @@ struct Node {
 };
 
 
-
+static void freeMemory(){
+    for(uint32_t i = 0; i < nodeCounter; i++) {
+        free(nodeList[i].name);
+        free(nodeList[i].neighbourList);
+        free(nodeList[i]);
+    }
+    free(nodeList);
+}
 static int isValidChar(char inputChar){
     int castedChar = (int)inputChar;
     if(castedChar>= 97 && castedChar<=122){ //between a-z
@@ -75,9 +82,7 @@ static int isDuplicate(char *node) {
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
 static void insertNeighbour(uint32_t ID, uint32_t node) {
-    //char *tmp = malloc((strlen(node) + 1) * sizeof(char));
-    //strcpy(tmp,node);
-    //uint32_t tmp = node;
+    
     if(DEBUG){
         printf("neighbour add function started \n");
     }
@@ -94,6 +99,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
              
              int compareID = nodeList[ID].neighbourList[i];
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
+                freeMemory();
                 exit(invalidEdgeERROR);
                 }
             if(strcmp(nodeList[node].name, nodeList[compareID].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
@@ -128,7 +134,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
 
 
 void addNode(char* node) {
-    struct Node tmp ; //= (struct Node*) malloc(1 * sizeof(struct Node));
+    struct Node tmp ; 
    
     char* tmpname = malloc((strlen(node) + 1) * sizeof(char));
     strcpy(tmpname, node);
@@ -222,6 +228,8 @@ uint32_t getStartConditions(char *input) {
             continue;
         }
         if(input[i] == '-'){
+            free(node);
+            freeMemory();
             exit(invalidFormatERROR);
         }
         if ((startRead == 1 && input[i] != '\n')) {
@@ -235,8 +243,12 @@ uint32_t getStartConditions(char *input) {
     }
     if (input[0] == 'A') {
         if(isDuplicate(node) == -1){
+            free(node);
+            freeMemory();
             exit(startNodeMissingERROR);
         }
+        uint32_t returnID = isDuplicate(node);
+        free(node);
         return isDuplicate(node);
     }
     else {
@@ -262,12 +274,18 @@ void getNode(char *input){
     for (uint32_t i = 0; i < strlen(input); i++)
     {   
         if((input[i] == ':') && noMoreColon ==1){
+            free(node);
+            freeMemory();
             exit(invalidFormatERROR);
         }
         if((input[i] == '-') && noMoreMinus ==1){
+            free(node);
+            freeMemory();
             exit(invalidFormatERROR);
         }
         if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
+            free(node);
+            freeMemory();
             exit(invalidCharERROR); 
         }
         //reads the mark when a '-' has been read
@@ -277,6 +295,8 @@ void getNode(char *input){
                 
             }
             if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
+                free(node);
+                freeMemory();
                 exit(charInMarkERROR);
             }
             
@@ -285,6 +305,8 @@ void getNode(char *input){
                 //marks[idFirstNode] = atoi(node);
                 long mark = atoi(node);
                 if(mark < 0 || mark > INT32_MAX ){
+                    free(node);
+                    freeMemory();
                     exit(invalidMarkERROR);
                 }
                 nodeList[idFirstNode].mark =  atoi(node);
@@ -309,6 +331,8 @@ void getNode(char *input){
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
             if(nodeSize == 0 && input[i] == '\n'){
+                free(node);
+                freeMemory();
                 exit(invalidFormatERROR); //leerer Node, oder knoten alleine
             }
             if ((isDuplicate(node) == -1) && strcmp(node, "") != 0) {
@@ -337,6 +361,8 @@ void getNode(char *input){
 
                 }
                 if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
+                    free(node);
+                    freeMemory();
                     exit(edgeToSelfERROR);
                 }
                 
@@ -407,12 +433,18 @@ int main (void) {
         
     }
     if(nodeCounter == 0){
+        free(input_ptr);
+        freeMemory();
         exit(noNodesERROR);
     }
     if(startNodeMode == 0){
+        free(input_ptr);
+        freeMemory();
         exit(noStartNodeERROR);
     }
     if(getline(&input_ptr, &len, stdin) != -1){
+        free(input_ptr);
+        freeMemory();
         exit(invalidFormatERROR);
     }
 
@@ -449,6 +481,7 @@ int main (void) {
     }
 
     printf("E:%s\n", nodeList[nextNode].name);
-
+    free(input_ptr);
+    freeMemory();
     return 0;
 }
