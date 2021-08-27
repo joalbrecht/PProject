@@ -11,7 +11,7 @@ uint32_t BUFFER_SIZE = 64;
 static uint32_t nodeCounter = 0;
 struct Node *nodeList = NULL;
 int DEBUG = 0;
-char *input_ptr = NULL;
+
 
 #define invalidCharERROR 99
 #define invalidMarkERROR 88
@@ -33,9 +33,6 @@ struct Node {
     uint32_t mark;
 };
 
-static void freeInput(){
-
-}
 
 static void freeMemory(){
     for(uint32_t i = 0; i < nodeCounter; i++) {
@@ -44,7 +41,7 @@ static void freeMemory(){
         //free(nodeList[i]);
     }
     free(nodeList);
-    free(input_ptr);
+    //free(input_ptr);
 }
 static int isValidChar(char inputChar){
     int castedChar = (int)inputChar;
@@ -432,7 +429,7 @@ int main (void) {
   
    
 
-     //malloc(START_BUFFER * sizeof(char*));
+    char *input_ptr = NULL; //malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
    
     
@@ -457,20 +454,20 @@ int main (void) {
         
     }
     if(nodeCounter == 0){
-        //free(input_ptr);
+        free(input_ptr);
         freeMemory();
         printf("There are no Nodes in the Input. ERROR Code: %d\n",noNodesERROR);
         exit(noNodesERROR);
-        
+
     }
     if(startNodeMode == 0){
-        //free(input_ptr);
+        free(input_ptr);
         freeMemory();
         printf("There is no given Start Node in the Input. ERROR Code: %d\n",noStartNodeERROR);
         exit(noStartNodeERROR);
     }
     if(getline(&input_ptr, &len, stdin) != -1){
-        //free(input_ptr);
+        free(input_ptr);
         freeMemory();
         printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
         exit(invalidFormatERROR);
@@ -509,7 +506,7 @@ int main (void) {
     }
 
     printf("E:%s\n", nodeList[nextNode].name);
-    //free(input_ptr);
+    free(input_ptr);
     freeMemory();
     return 0;
 }
