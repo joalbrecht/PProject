@@ -280,19 +280,21 @@ void getNode(char *input){
     {   
         if((input[i] == ':') && noMoreColon ==1){
             free(node);
+            free(input);
             freeMemory();
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
         if((input[i] == '-') && noMoreMinus ==1){
             free(node);
+            free(input);
             freeMemory();
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
         if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
             free(node);
-            
+            free(input);
             freeMemory();
             printf("Invalid Char was read. ERROR Code: %d\n",invalidCharERROR);
             exit(invalidCharERROR); 
@@ -317,6 +319,7 @@ void getNode(char *input){
                 long mark = atoi(node);
                 if(mark < 0 || mark > INT32_MAX ){
                     free(node);
+                    free(input);
                     freeMemory();
                     printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
                     exit(invalidMarkERROR);
@@ -344,6 +347,7 @@ void getNode(char *input){
             currentNodeIndex = 0;
             if(nodeSize == 0 && input[i] == '\n'){
                 free(node);
+                free(input);
                 freeMemory();
                 printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
                 exit(invalidFormatERROR); //leerer Node, oder knoten alleine
@@ -375,6 +379,7 @@ void getNode(char *input){
                 }
                 if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
                     free(node);
+                    free(input);
                     freeMemory();
                     printf("Node has an Edge to itself. ERROR Code: %d\n",edgeToSelfERROR);
                     exit(edgeToSelfERROR);
