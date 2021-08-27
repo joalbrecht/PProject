@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "istream": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "__node_handle": "c"
     }
 }

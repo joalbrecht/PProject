@@ -221,7 +221,7 @@ uint32_t getStartConditions(char *input) {
     char *node = malloc((strlen(input)+1) * sizeof(char));
     uint32_t startRead = 0;
     uint32_t j = 0;
-    
+    uint32_t returnID = 0;
     for (uint32_t i = 0; i < strlen(input); i++) {
         if (input[i] == ':') {
             startRead = 1;
@@ -247,12 +247,14 @@ uint32_t getStartConditions(char *input) {
             freeMemory();
             exit(startNodeMissingERROR);
         }
-        uint32_t returnID = isDuplicate(node);
+        returnID = isDuplicate(node);
         free(node);
         return returnID;
     }
     else {
-        return atoi(node);
+        returnID = atoi(node);
+        free(node);
+        return returnID;
     }
 }
 
