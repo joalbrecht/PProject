@@ -37,7 +37,7 @@ static void freeMemory(){
     for(uint32_t i = 0; i < nodeCounter; i++) {
         free(nodeList[i].name);
         free(nodeList[i].neighbourList);
-        free(nodeList[i]);
+        //free(nodeList[i]);
     }
     free(nodeList);
 }
@@ -221,7 +221,7 @@ uint32_t getStartConditions(char *input) {
     char *node = malloc((strlen(input)+1) * sizeof(char));
     uint32_t startRead = 0;
     uint32_t j = 0;
-
+    
     for (uint32_t i = 0; i < strlen(input); i++) {
         if (input[i] == ':') {
             startRead = 1;
@@ -249,7 +249,7 @@ uint32_t getStartConditions(char *input) {
         }
         uint32_t returnID = isDuplicate(node);
         free(node);
-        return isDuplicate(node);
+        return returnID;
     }
     else {
         return atoi(node);
