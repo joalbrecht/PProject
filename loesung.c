@@ -187,6 +187,11 @@ uint32_t goStep(uint32_t currentNode){
         printf("Step: documentation: \n");
         
     }
+    //edge case: only one node
+    if(nodeCounter == 1){
+        nodeList[currentNode].mark++;
+    }
+    
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
     idNextNode = nodeList[currentNode].neighbourList[neighbourStep];
     if(DEBUG){
