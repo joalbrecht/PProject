@@ -305,7 +305,7 @@ void getNode(char *input){
             }
             if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
                 free(node);
-                free(input_ptr);
+                free(input);
                 freeMemory();
                 printf("There was a char in the Mark. ERROR Code: %d\n",charInMarkERROR);
                 exit(charInMarkERROR);
