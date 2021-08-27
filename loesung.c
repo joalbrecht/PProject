@@ -191,7 +191,7 @@ uint32_t goStep(uint32_t currentNode){
     if(nodeCounter == 1){
         nodeList[currentNode].mark++;
     }
-    
+
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
     idNextNode = nodeList[currentNode].neighbourList[neighbourStep];
     if(DEBUG){
@@ -202,10 +202,7 @@ uint32_t goStep(uint32_t currentNode){
         printf("current mark: %d, neighbourcount: %d\n", nodeList[currentNode].mark,nodeList[currentNode].neighbour_count);
         printf("neighbourstep: %d, idNextNode: %d, nextNode: %s, currentNode: %s \n",neighbourStep,idNextNode,nodeList[idNextNode].name,nodeList[currentNode].name);
     }
-    /*
-    for(int i = 0; i < neighbour_count;i++) {
-        printf("%s, ", neighbourList[i]);
-    } */
+  
     
     nodeList[currentNode].mark++;
     return idNextNode;
