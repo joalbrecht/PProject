@@ -32,6 +32,8 @@ struct Node {
     uint32_t mark;
 };
 
+
+
 static int isValidChar(char inputChar){
     int castedChar = (int)inputChar;
     if(castedChar>= 97 && castedChar<=122){ //between a-z
