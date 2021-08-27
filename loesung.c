@@ -233,7 +233,7 @@ uint32_t getStartConditions(char *input) {
         if(input[i] == '-'){
             free(node);
             freeMemory();
-            //free(input);
+            free(input);
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
@@ -250,7 +250,7 @@ uint32_t getStartConditions(char *input) {
         if(isDuplicate(node) == -1){
             free(node);
             freeMemory();
-            //free(input);
+            free(input);
             printf("Start Node is node inlcuded in the Input. ERROR Code: %d\n",startNodeMissingERROR);
             exit(startNodeMissingERROR);
         }
@@ -284,21 +284,21 @@ void getNode(char *input){
     {   
         if((input[i] == ':') && noMoreColon ==1){
             free(node);
-            //free(input);
+            free(input);
             freeMemory();
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
         if((input[i] == '-') && noMoreMinus ==1){
             free(node);
-            //free(input);
+            free(input);
             freeMemory();
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
         if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
             free(node);
-            //free(input);
+            free(input);
             freeMemory();
             printf("Invalid Char was read. ERROR Code: %d\n",invalidCharERROR);
             exit(invalidCharERROR); 
@@ -311,7 +311,7 @@ void getNode(char *input){
             }
             if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
                 free(node);
-                //free(input);
+                free(input);
                 freeMemory();
                 printf("There was a char in the Mark. ERROR Code: %d\n",charInMarkERROR);
                 exit(charInMarkERROR);
@@ -323,7 +323,7 @@ void getNode(char *input){
                 long mark = atoi(node);
                 if(mark < 0 || mark > INT32_MAX ){
                     free(node);
-                    //free(input);
+                    free(input);
                     freeMemory();
                     printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
                     exit(invalidMarkERROR);
@@ -351,7 +351,7 @@ void getNode(char *input){
             currentNodeIndex = 0;
             if(nodeSize == 0 && input[i] == '\n'){
                 free(node);
-                //free(input);
+                free(input);
                 freeMemory();
                 printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
                 exit(invalidFormatERROR); //leerer Node, oder knoten alleine
@@ -383,7 +383,7 @@ void getNode(char *input){
                 }
                 if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
                     free(node);
-                    //free(input);
+                    free(input);
                     freeMemory();
                     printf("Node has an Edge to itself. ERROR Code: %d\n",edgeToSelfERROR);
                     exit(edgeToSelfERROR);
@@ -431,7 +431,7 @@ int main (void) {
   
    
 
-    char *input_ptr; //malloc(START_BUFFER * sizeof(char*));
+    char *input_ptr = NULL; //malloc(START_BUFFER * sizeof(char*));
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
    
     
@@ -456,20 +456,20 @@ int main (void) {
         
     }
     if(nodeCounter == 0){
-        //free(input_ptr);
+        free(input_ptr);
         freeMemory();
         printf("There are no Nodes in the Input. ERROR Code: %d\n",noNodesERROR);
         exit(noNodesERROR);
 
     }
     if(startNodeMode == 0){
-        //free(input_ptr);
+        free(input_ptr);
         freeMemory();
         printf("There is no given Start Node in the Input. ERROR Code: %d\n",noStartNodeERROR);
         exit(noStartNodeERROR);
     }
     if(getline(&input_ptr, &len, stdin) != -1){
-        //free(input_ptr);
+        free(input_ptr);
         freeMemory();
         printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
         exit(invalidFormatERROR);
@@ -508,7 +508,7 @@ int main (void) {
     }
 
     printf("E:%s\n", nodeList[nextNode].name);
-    //free(input_ptr);
+    free(input_ptr);
     freeMemory();
     return 0;
 }
