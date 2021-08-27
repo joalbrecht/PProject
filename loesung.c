@@ -99,9 +99,8 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
              
              int compareID = nodeList[ID].neighbourList[i];
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
-                freeMemory();
-                printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
-                exit(invalidEdgeERROR);
+                return invalidEdgeERROR;
+                
                 }
             if(strcmp(nodeList[node].name, nodeList[compareID].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
                 if(DEBUG){
@@ -166,6 +165,9 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
     //Add Edge on Base
     
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(int*));
+    if(insertNeighbour(IDbase, IDadd) == invalidEdgeERROR){
+        return invalidEdgeERROR;
+    }
     insertNeighbour(IDbase, IDadd);
     nodeList[IDbase].neighbour_count++;
 
@@ -182,6 +184,9 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
     //Add Edge on Add
     
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(int*));
+    if(insertNeighbour(IDbase, IDadd) == invalidEdgeERROR){
+        return invalidEdgeERROR;
+    }
     insertNeighbour(IDadd, IDbase);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
@@ -373,6 +378,13 @@ void getNode(char *input){
                 
                 if(idFirstNode != idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
+                    if(addEdge(idFirstNode, idCurrentNode) == invalidEdgeERROR){
+                        free(node);
+                        free(input);
+                        freeMemory();
+                        printf("There was an invalid Edge. ERROR Code: %d\n",invalidEdgeERROR);
+                        exit(invalidEdgeERROR);
+                    }
                     addEdge(idFirstNode, idCurrentNode);
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
