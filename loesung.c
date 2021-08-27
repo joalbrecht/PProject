@@ -83,7 +83,7 @@ static int isDuplicate(char *node) {
 }
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void insertNeighbour(uint32_t ID, uint32_t node) {
+static int insertNeighbour(uint32_t ID, uint32_t node) {
     
     if(DEBUG){
         printf("neighbour add function started \n");
@@ -102,7 +102,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
              int compareID = nodeList[ID].neighbourList[i];
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
                 freeMemory();
-                goto there;
+                return invalidEdgeERROR;
                 
                 }
             if(strcmp(nodeList[node].name, nodeList[compareID].name) < 0) { // if the first non-matching character in str1 is lower (in ASCII) than that of str2.;
@@ -127,6 +127,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node) {
         }
         nodeList[ID].neighbourList[nodeList[ID].neighbour_count] = node;
     }
+    return 0;
     if(DEBUG){
         printf("neighbours von %s: \n", nodeList[ID].name);
         for(uint32_t i = 0; i < nodeList[ID].neighbour_count+1; i++){
@@ -156,7 +157,7 @@ void addNode(char* node) {
 
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
-void addEdge(uint32_t IDbase, uint32_t IDadd) {
+int addEdge(uint32_t IDbase, uint32_t IDadd) {
     if (DEBUG) {
         printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
@@ -166,9 +167,12 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
         }
     }
     //Add Edge on Base
-    
+    int coverForError = 0;
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(int*));
-    insertNeighbour(IDbase, IDadd);
+    if(insertNeighbour(IDbase, IDadd)== invalidEdgeERROR){
+        return invalidEdgeERROR;
+    }
+    coverForError =insertNeighbour(IDbase, IDadd);
     nodeList[IDbase].neighbour_count++;
 
     if(DEBUG){
@@ -184,9 +188,10 @@ void addEdge(uint32_t IDbase, uint32_t IDadd) {
     //Add Edge on Add
     
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(int*));
-    insertNeighbour(IDadd, IDbase);
+    coverForError = insertNeighbour(IDadd, IDbase);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
+    return 0;
 }
 
 // simulates a step of the ant. calculates where to go by getting the amount of neighbours and the current mark on the Node
@@ -374,10 +379,16 @@ void getNode(char *input){
             if (isFirstNode == 0) {
                 
                 idCurrentNode = isDuplicate(node);
-                
+                int coverForError= 0;
                 if(idFirstNode != idCurrentNode){
                     if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
-                    addEdge(idFirstNode, idCurrentNode);
+                    if(addEdge(idFirstNode, idCurrentNode) == invalidEdgeERROR){
+                        free(input);
+                        freeMemory();
+                        printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
+                         exit(invalidEdgeERROR);
+                    }
+                    coverForError = addEdge(idFirstNode, idCurrentNode);
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
                 }
@@ -512,10 +523,6 @@ int main (void) {
     free(input_ptr);
     freeMemory();
     return 0;
-    there:
-    free(input_ptr);
-    freeMemory();
-    printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
-    exit(invalidEdgeERROR);
+    
 
 }
