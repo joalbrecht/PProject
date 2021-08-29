@@ -382,7 +382,7 @@ void getNode(char *input){
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
                 }
-                if((idFirstNode == idCurrentNode)){  && isFirstNode != -1 ){
+                if((idFirstNode == idCurrentNode)  && isFirstNode != -1 ){
                     free(node);
                     free(input);
                     freeMemory();
