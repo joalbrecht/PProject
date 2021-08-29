@@ -83,7 +83,7 @@ static int isDuplicate(char *node) {
 }
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void insertNeighbour(uint32_t ID, uint32_t node, char* input, char* node) {
+static void insertNeighbour(uint32_t ID, uint32_t node, char* input, char* nodeChar) {
     
     if(DEBUG){
         printf("neighbour add function started \n");
@@ -103,7 +103,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node, char* input, char* node)
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
                 freeMemory();
                 free(input);
-                free(node);
+                free(nodeChar);
                 printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
                 exit(invalidEdgeERROR);
                 }
