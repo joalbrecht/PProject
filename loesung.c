@@ -276,7 +276,7 @@ void getNode(char *input){
     uint32_t nodeSize = 0;
     uint32_t currentNodeIndex = 0;
     uint32_t isFirstNode = 1;
-    uint64_t idFirstNode = INT32_MAX;
+    uint64_t idFirstNode = INT32_MAX+1;
     uint32_t idCurrentNode = 0;
     uint32_t markerMode = 0;
     int noMoreColon = 0;
