@@ -300,9 +300,11 @@ void getNode(char *input){
             exit(invalidFormatERROR);
         }
         if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
+            printf("this was read: %s \n",input);
             free(node);
             free(input);
             freeMemory();
+            
             printf("Invalid Char was read. ERROR Code: %d\n",invalidCharERROR);
             exit(invalidCharERROR); 
         }
