@@ -83,7 +83,7 @@ static int isDuplicate(char *node) {
 }
 
 //sorts a given List, used for sorting neighbournodes list //Static weil schneller
-static void insertNeighbour(uint32_t ID, uint32_t node, char* input) {
+static void insertNeighbour(uint32_t ID, uint32_t node, char* input, char* node) {
     
     if(DEBUG){
         printf("neighbour add function started \n");
@@ -103,6 +103,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node, char* input) {
              if(strcmp(nodeList[node].name, nodeList[compareID].name) == 0){
                 freeMemory();
                 free(input);
+                free(node);
                 printf("There was an Invalid Edge in the Input. ERROR Code: %d\n",invalidEdgeERROR);
                 exit(invalidEdgeERROR);
                 }
@@ -157,7 +158,7 @@ void addNode(char* node) {
 
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
-void addEdge(uint32_t IDbase, uint32_t IDadd,char* input) {
+void addEdge(uint32_t IDbase, uint32_t IDadd,char* input, char* node) {
     if (DEBUG) {
         printf("Adding Edge between %d|%s and %d|%s\n", IDbase, nodeList[IDbase].name, IDadd, nodeList[IDadd].name);
         printf("Neighbourcount von base %s: %d\n",nodeList[IDbase].name, (int)nodeList[IDbase].neighbour_count);
@@ -169,7 +170,7 @@ void addEdge(uint32_t IDbase, uint32_t IDadd,char* input) {
     //Add Edge on Base
     
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(int*));
-    insertNeighbour(IDbase, IDadd, input);
+    insertNeighbour(IDbase, IDadd, input, node);
     nodeList[IDbase].neighbour_count++;
 
     if(DEBUG){
@@ -185,7 +186,7 @@ void addEdge(uint32_t IDbase, uint32_t IDadd,char* input) {
     //Add Edge on Add
     
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(int*));
-    insertNeighbour(IDadd, IDbase, input);
+    insertNeighbour(IDadd, IDbase, input, node);
     nodeList[IDadd].neighbour_count++;
     //free(tmp);
 }
