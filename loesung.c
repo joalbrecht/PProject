@@ -201,6 +201,7 @@ uint32_t goStep(uint32_t currentNode){
     //edge case: only one node
     if(nodeCounter == 1){
         nodeList[currentNode].mark++;
+        return currentNode;
     }
 
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
