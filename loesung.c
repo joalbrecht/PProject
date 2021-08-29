@@ -276,7 +276,7 @@ void getNode(char *input){
     uint32_t nodeSize = 0;
     uint32_t currentNodeIndex = 0;
     uint32_t isFirstNode = 1;
-    uint64_t idFirstNode = INT32_MAX+1;
+    uint64_t idFirstNode = UINT32_MAX;
     uint32_t idCurrentNode = 0;
     uint32_t markerMode = 0;
     int noMoreColon = 0;
@@ -377,19 +377,18 @@ void getNode(char *input){
             if (isFirstNode == 0) {
                 
                 idCurrentNode = isDuplicate(node);
-                
-                if(idFirstNode != idCurrentNode){
-                    if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
-                    addEdge(idFirstNode, idCurrentNode, input, node);
-                    if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
-
-                }
-                if((idFirstNode == idCurrentNode)  && idFirstNode != (UINT32_MAX +1) ){
+                if((idFirstNode == idCurrentNode)  && idFirstNode != (INT32_MAX) ){
                     free(node);
                     free(input);
                     freeMemory();
                     printf("Node has an Edge to itself. ERROR Code: %d\n",edgeToSelfERROR);
                     exit(edgeToSelfERROR);
+                }
+                else{ //(idFirstNode != idCurrentNode){
+                    if(DEBUG)printf("Neighbors von %s vorher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
+                    addEdge(idFirstNode, idCurrentNode, input, node);
+                    if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
+
                 }
                 
             }
