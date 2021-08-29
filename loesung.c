@@ -274,7 +274,7 @@ void getNode(char *input){
     uint32_t nodeSize = 0;
     uint32_t currentNodeIndex = 0;
     uint32_t isFirstNode = 1;
-    uint32_t idFirstNode = 0;
+    uint32_t idFirstNode;
     uint32_t idCurrentNode = 0;
     uint32_t markerMode = 0;
     int noMoreColon = 0;
@@ -382,7 +382,7 @@ void getNode(char *input){
                     if(DEBUG)printf("Neighbors von %s nachher: %d\n",nodeList[idFirstNode].name,nodeList[idFirstNode].neighbour_count);
 
                 }
-                if((idFirstNode == idCurrentNode)&& idFirstNode!= 0 ){
+                if((idFirstNode == idCurrentNode)){  //&& isFirstNode== 0 ){
                     free(node);
                     free(input);
                     freeMemory();
