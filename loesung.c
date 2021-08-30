@@ -33,6 +33,7 @@ struct Node {
 };
 
 
+//will free the global memory before an exit
 static void freeMemory(){
     for(uint32_t i = 0; i < nodeCounter; i++) {
         free(nodeList[i].name);
@@ -40,6 +41,8 @@ static void freeMemory(){
     }
     free(nodeList);
 }
+
+//validates if an input char is valid
 static int isValidChar(char inputChar){
     int castedChar = (int)inputChar;
     if(castedChar>= 97 && castedChar<=122){ //between a-z
@@ -58,6 +61,7 @@ static int isValidChar(char inputChar){
  
 }
 
+//validates if a number is valid, different function because it is also used for the mark
 static int isValidDigit(char inputChar){
     int castedChar = (int)inputChar;
 
@@ -70,7 +74,7 @@ static int isValidDigit(char inputChar){
     }
 }
 
-
+//returns the ID of a string, if it is already in the nodeList. If not it will return -1
 static int isDuplicate(char *node) { 
     for (uint32_t i = 0; i < nodeCounter; i++) {
         if (strcmp(nodeList[i].name, node) == 0) {
@@ -117,7 +121,7 @@ static void insertNeighbour(uint32_t ID, uint32_t node, char* input, char* nodeC
     }
 }
 
-
+//adds a node to the NodeList
 void addNode(char* node) {
     struct Node tmp ; 
    
@@ -134,18 +138,16 @@ void addNode(char* node) {
 }
 
 
-//checks if Node is Duplicate and returns ID if not duplicate and returns -1 if duplicate
-
 
 //adds an entry of 1 into the column and row in the global adjacency Matrix
 void addEdge(uint32_t IDbase, uint32_t IDadd,char* input, char* node) {
     
-    //Add Edge on Base
+    //Add Edge on Base Node
     nodeList[IDbase].neighbourList = realloc(nodeList[IDbase].neighbourList,(nodeList[IDbase].neighbour_count+1) *sizeof(int*));
     insertNeighbour(IDbase, IDadd, input, node);
     nodeList[IDbase].neighbour_count++;
 
-    //Add Edge on Add
+    //Add Edge on the other Node
     nodeList[IDadd].neighbourList = realloc(nodeList[IDadd].neighbourList,(nodeList[IDadd].neighbour_count+1)*sizeof(int*));
     insertNeighbour(IDadd, IDbase, input, node);
     nodeList[IDadd].neighbour_count++;
@@ -163,6 +165,7 @@ uint32_t goStep(uint32_t currentNode){
         return currentNode;
     }
 
+    // markierung mod number of neighbours
     neighbourStep = nodeList[currentNode].mark % nodeList[currentNode].neighbour_count;
     idNextNode = nodeList[currentNode].neighbourList[neighbourStep];  
     
@@ -181,7 +184,7 @@ uint32_t getStartConditions(char *input) {
             startRead = 1;
             continue;
         }
-        if(input[i] == '-'){
+        if(input[i] == '-'){ //start node is not allowed to have a mark
             free(node);
             freeMemory();
             free(input);
@@ -197,7 +200,7 @@ uint32_t getStartConditions(char *input) {
             break;
         }
     }
-    if (input[0] == 'A') {
+    if (input[0] == 'A') { //there is no Start node declaration when there shoud be one
         if(isDuplicate(node) == -1){
             free(node);
             freeMemory();
@@ -233,21 +236,21 @@ void getNode(char *input){
     //iterates through the Whole input line
     for (uint32_t i = 0; i < strlen(input); i++)
     {   
-        if((input[i] == ':') && noMoreColon ==1){
+        if((input[i] == ':') && noMoreColon ==1){ //double : in one line
             free(node);
             free(input);
             freeMemory();
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
-        if((input[i] == '-') && noMoreMinus ==1){
+        if((input[i] == '-') && noMoreMinus ==1){ // double - in one line
             free(node);
             free(input);
             freeMemory();
             printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
             exit(invalidFormatERROR);
         }
-        if((isValidChar(input[i]) == 0)){//|| isValidDigit(input[i]) == 0){
+        if((isValidChar(input[i]) == 0)){ //invalid Char is entered
             free(node);
             free(input);
             freeMemory();
@@ -260,7 +263,7 @@ void getNode(char *input){
                 continue;
                 
             }
-            if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){
+            if((isValidDigit(input[i]) == 0) && (input[i] != '\n')){ //char in Mark, only numbers allowed
                 free(node);
                 free(input);
                 freeMemory();
@@ -270,9 +273,8 @@ void getNode(char *input){
             
             node[currentNodeIndex] = input[i];
             if (input[i] == '\n') {
-                //marks[idFirstNode] = atoi(node);
                 long mark = atoi(node);
-                if(mark < 0 || mark > INT32_MAX ){
+                if(mark < 0 || mark > INT32_MAX ){ // mark out of range
                     free(node);
                     free(input);
                     freeMemory();
@@ -300,15 +302,14 @@ void getNode(char *input){
         //node ist fertig
         if (((input[i] == ':') || (input[i] == ',') || (input[i] == '\n') || input[i] == '-') && (markerMode == 0)) {
             currentNodeIndex = 0;
-            if(nodeSize == 0 && input[i] == '\n'){
+            if(nodeSize == 0 && input[i] == '\n'){ //leerer Node, oder knoten alleine
                 free(node);
                 free(input);
                 freeMemory();
                 printf("Invalid Format. ERROR Code: %d\n",invalidFormatERROR);
-                exit(invalidFormatERROR); //leerer Node, oder knoten alleine
+                exit(invalidFormatERROR); 
             }
             if ((isDuplicate(node) == -1) && strcmp(node, "") != 0) {
-                //printf("bis hier\n");
                 if(nodeCounter + 3 > BUFFER_SIZE){
                  
                     BUFFER_SIZE = BUFFER_SIZE +5;
@@ -321,14 +322,14 @@ void getNode(char *input){
             if (isFirstNode == 0) {
                 
                 idCurrentNode = isDuplicate(node);
-                if((idFirstNode == idCurrentNode)  && idFirstNode != (INT32_MAX) ){
+                if((idFirstNode == idCurrentNode)  && idFirstNode != (INT32_MAX) ){ // node as edge to itself
                     free(node);
                     free(input);
                     freeMemory();
                     printf("Node has an Edge to itself. ERROR Code: %d\n",edgeToSelfERROR);
                     exit(edgeToSelfERROR);
                 }
-                else{ //(idFirstNode != idCurrentNode){
+                else{ 
                     addEdge(idFirstNode, idCurrentNode, input, node);
  
                 }
@@ -359,8 +360,8 @@ void getNode(char *input){
             break;
         }
 
-        node[currentNodeIndex] = input[i]; // copy chars to node
-        currentNodeIndex++; // TODO j is the same as nodeSize
+        node[currentNodeIndex] = input[i]; 
+        currentNodeIndex++; 
         
         nodeSize = nodeSize + 1;
         node[nodeSize] = '\0';
@@ -375,7 +376,7 @@ int main (void) {
   
    
 
-    char *input_ptr = NULL; //malloc(START_BUFFER * sizeof(char*));
+    char *input_ptr = NULL; 
     nodeList = malloc(BUFFER_SIZE * sizeof(struct Node));
    
     
@@ -385,7 +386,7 @@ int main (void) {
     uint32_t startNodeId = 0;
     while (getline(&input_ptr, &len, stdin) != -1) {
           
-        if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition mode
+        if (input_ptr[0] == 'A') { //exits the reading loop to get into the StartCondition
             startNodeMode = 1;
             startNodeId = getStartConditions(input_ptr);
         }
@@ -398,7 +399,7 @@ int main (void) {
         }
         
     }
-    if(nodeCounter == 0){
+    if(nodeCounter == 0){ 
         free(input_ptr);
         freeMemory();
         printf("There are no Nodes in the Input. ERROR Code: %d\n",noNodesERROR);
